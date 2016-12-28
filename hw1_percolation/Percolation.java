@@ -19,12 +19,12 @@ public class Percolation {
          // for (int i=0; i<N*N-1; i++) {
          //    sites[i] = i;
          // }
-         quickUnionUF = new WeightedQuickUnionUF(N*N);
+         quickUnionUF = new WeightedQuickUnionUF(N*N+2);
          // union
-         // for (int i = 0; i <= N; i++) {
-         //    quickUnionUF.union(0, i);
-         //    quickUnionUF.union(N*N-1, N*N-1-i);
-         // }
+         for (int i = 0; i <= N; i++) {
+            quickUnionUF.union(0, i);
+            quickUnionUF.union(N*N+1, N*N+1-i);
+         }
       }
    }  
    private int getN() {
@@ -100,29 +100,29 @@ public class Percolation {
       Percolation myPercolation = new Percolation(9);
       int n = myPercolation.getN();
       System.out.println("Total Sites: " + n + " by " + n + " = " + n*n ); 
-      System.out.println("Opening 2,1");
-      myPercolation.open(2,1);
-      System.out.println("Opening 2,2");
-      myPercolation.open(2,2);
-      System.out.println("Opening 3,2");
-      myPercolation.open(3,2);
+      System.out.println("Opening 1,3");
+      myPercolation.open(1,3);
+      System.out.println("Opening 2,3");
+      myPercolation.open(2,3);
       System.out.println("Opening 3,3");
       myPercolation.open(3,3);
-      System.out.println("Opening 3,4");
-      myPercolation.open(3,4);
-      System.out.println("Opening 3,5");
-      myPercolation.open(3,5);
-      System.out.println("Opening 1,1");
-      myPercolation.open(1,1);
-      System.out.println("Is 3,4 open?: " + myPercolation.isOpen(3,4));
+      System.out.println("Opening 4,3");
+      myPercolation.open(4,3);
+      System.out.println("Opening 4,2");
+      myPercolation.open(4,2);
+      System.out.println("Opening 5,2");
+      myPercolation.open(5,2);
+      System.out.println("Opening 5,3");
+      myPercolation.open(5,3);
+      System.out.println("Is 4,2 open?: " + myPercolation.isOpen(4,2));
       System.out.println("Is 4,4 open?: " + myPercolation.isOpen(4,4));
-      int index1 = myPercolation.xyTo1D(1,4);
+      int index1 = myPercolation.xyTo1D(1,3);
       int index2 = myPercolation.xyTo1D(3,6);
-      int index3 = myPercolation.xyTo1D(3,5);
-      System.out.println("3,4, and 3,6 connected?: " + myPercolation.quickUnionUF.connected(index1, index2));
-      System.out.println("1,4, and 3,5 connected?: " + myPercolation.quickUnionUF.connected(index1, index3));
+      int index3 = myPercolation.xyTo1D(5,2);
+      System.out.println("1,3, and 3,6 connected?: " + myPercolation.quickUnionUF.connected(index1, index2));
+      System.out.println("1,3, and 5,2 connected?: " + myPercolation.quickUnionUF.connected(index1, index3));
       System.out.println("Number of open sites: " + myPercolation.numberOfOpenSites());
-      System.out.println("3,4 is full? " + myPercolation.isFull(3,4));
+      System.out.println("Is 5,3 full? " + myPercolation.isFull(5,3));
       try {
          Percolation temp = new Percolation(-1);
       } catch (java.lang.IllegalArgumentException iae) {
@@ -132,7 +132,7 @@ public class Percolation {
    }
    public int xyTo1D(int row, int col) {
       if (xyValid(row, col)) {
-         return (row-1)*N + (col-1);
+         return (row-1)*N + (col-1) + 1;
       }
       else {
          return -1;
