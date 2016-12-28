@@ -30,19 +30,27 @@ public class Percolation {
          sites[index] = 1;
          //right
          if (col != N) {
-            quickUnionUF.union(index, index+1);
+            if (sites[index+1] == 1) {
+               quickUnionUF.union(index, index+1);
+            }
          }
          // left
          if (col != 1) {
-            quickUnionUF.union(index, index-1);
+            if (sites[index-1] == 1) {
+               quickUnionUF.union(index, index-1);
+            }
          }
          // up
          if (row != 1) {
-            quickUnionUF.union(index, index-N);
+            if (sites[index-N] == 1) {
+               quickUnionUF.union(index, index-N);
+            }
          }
          // down
          if (row != N) {
-            quickUnionUF.union(index, index+N);
+            if (sites[index+N] == 1) {
+               quickUnionUF.union(index, index+N);
+            }
          }
       }
    } 
@@ -70,8 +78,17 @@ public class Percolation {
       System.out.println("Total Sites: " + n + " by " + n + " = " + n*n ); 
       System.out.println("Opening 3,4");
       myPercolation.open(3,4);
+      System.out.println("Opening 3,5");
+      myPercolation.open(3,5);
       System.out.println("Is 3,4 open?: " + myPercolation.isOpen(3,4));
       System.out.println("Is 4,4 open?: " + myPercolation.isOpen(4,4));
+      int index1 = myPercolation.xyTo1D(3,4);
+      int index2 = myPercolation.xyTo1D(3,6);
+      int index3 = myPercolation.xyTo1D(3,5);
+      System.out.println("3,4, and 3,6 connected?: " + myPercolation.quickUnionUF.connected(index1, index2));
+      System.out.println("3,4, and 3,5 connected?: " + myPercolation.quickUnionUF.connected(index1, index3));
+
+      
    }
    public int xyTo1D(int row, int col) {
       if (xyValid(row, col)) {
