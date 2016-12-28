@@ -79,8 +79,7 @@ public class Percolation {
       boolean full = false;
       if (isOpen(row, col)) {
          int index = xyTo1D(row, col);
-         // need to add the virtual open site above top and below last rows
-         // for now try a hard code of '0', first row, first column
+         // index 0 is virtual node, connected to first row
          full = quickUnionUF.connected(index, 0);
          System.out.println("Is Full, index through node 1: " + full);
 
@@ -93,7 +92,8 @@ public class Percolation {
    }
    // does the system percolate?    
    public boolean percolates()  {
-       return true;
+       boolean percolates = quickUnionUF.connected(0, N*N+1);
+       return percolates;
    }
    // test client (optional)    
    public static void main(String[] args) {
@@ -114,6 +114,15 @@ public class Percolation {
       myPercolation.open(5,2);
       System.out.println("Opening 5,3");
       myPercolation.open(5,3);
+      System.out.println("Opening 6,3");
+      myPercolation.open(6,3);
+      System.out.println("Opening 7,3");
+      myPercolation.open(7,3);
+      System.out.println("Opening 8,3");
+      myPercolation.open(8,3);
+      System.out.println("Opening 9,3");
+      myPercolation.open(9,3);
+
       System.out.println("Is 4,2 open?: " + myPercolation.isOpen(4,2));
       System.out.println("Is 4,4 open?: " + myPercolation.isOpen(4,4));
       int index1 = myPercolation.xyTo1D(1,3);
@@ -123,6 +132,7 @@ public class Percolation {
       System.out.println("1,3, and 5,2 connected?: " + myPercolation.quickUnionUF.connected(index1, index3));
       System.out.println("Number of open sites: " + myPercolation.numberOfOpenSites());
       System.out.println("Is 5,3 full? " + myPercolation.isFull(5,3));
+      System.out.println("Does system percolate? " + myPercolation.percolates());
       try {
          Percolation temp = new Percolation(-1);
       } catch (java.lang.IllegalArgumentException iae) {
