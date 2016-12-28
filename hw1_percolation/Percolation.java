@@ -6,6 +6,7 @@ public class Percolation {
 
    private int N;
    private int[] sites;
+   private WeightedQuickUnionUF quickUnionUF;
     
    // create n-by-n grid, with all sites blocked 
    public Percolation(int n) {
@@ -14,6 +15,7 @@ public class Percolation {
       for (int i=0; i<N*N-1; i++) {
          sites[i] = i;
       }
+      quickUnionUF = new WeightedQuickUnionUF(N*N);
    }  
    public int getN() {
       return N*N;
@@ -43,11 +45,16 @@ public class Percolation {
    }
    // test client (optional)    
    public static void main(String[] args) {
-      Percolation myPercolation = new Percolation(5);
+      Percolation myPercolation = new Percolation(9);
       int n = myPercolation.getN();
       System.out.println("Total Sites: " + n); 
       for (int i=0; i<n-1; i++) {
          System.out.println("Site " + i + " Value: " + myPercolation.getValue(i) );
       }
+      System.out.println("xyTo1D(3, 6): " + myPercolation.xyTo1D(3,6));
+   }
+   public int xyTo1D(int row, int col) {
+      return (row-1)*N + (col-1);
+
    }
 }
