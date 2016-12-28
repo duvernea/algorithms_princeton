@@ -52,9 +52,20 @@ public class Percolation {
          System.out.println("Site " + i + " Value: " + myPercolation.getValue(i) );
       }
       System.out.println("xyTo1D(3, 6): " + myPercolation.xyTo1D(3,6));
+      System.out.println("xyValid(10,9): " + myPercolation.xyValid(10,9));
+      System.out.println("xyValid(0,1): " + myPercolation.xyValid(0,1));
+      System.out.println("xyValid(2,1): " + myPercolation.xyValid(2,1));
+
    }
    public int xyTo1D(int row, int col) {
-      return (row-1)*N + (col-1);
-
+      if (xyValid(row, col)) {
+         return (row-1)*N + (col-1);
+      }
+      else {
+         return -1;
+      }
+   }
+   public boolean xyValid(int row, int col) {
+      return row <= N && col <= N && row >0 && col > 0;
    }
 }
