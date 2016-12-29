@@ -140,7 +140,7 @@ public class Percolation {
       // }
 
    }
-   public int xyTo1D(int row, int col) {
+   private int xyTo1D(int row, int col) {
       if (xyValid(row, col)) {
          return (row-1)*N + (col-1) + 1;
       }
@@ -148,7 +148,7 @@ public class Percolation {
          return -1;
       }
    }
-   public boolean xyValid(int row, int col) {
+   private boolean xyValid(int row, int col) {
       return row <= N && col <= N && row >0 && col > 0;
    }
 }

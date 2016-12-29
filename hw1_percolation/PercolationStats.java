@@ -5,11 +5,11 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats {
 
-	int N;
-	int trials;
-	Percolation percolation;
-	double mean;
-	double percolation_threshold[];
+	private int N;
+	private int trials;
+	private Percolation percolation;
+	private double mean;
+	private double percolation_threshold[];
 	// perform trials independent experiments on an n-by-n grid
    	public PercolationStats(int n, int trials) throws java.lang.IllegalArgumentException {
    		mean = 0;
@@ -69,10 +69,5 @@ public class PercolationStats {
 	        System.out.println("95% confidence low: " + percStats.confidenceLo());
 	        System.out.println("95% confidence high: " + percStats.confidenceHi());
    		}
-
-
-
-
-
    	}       
 }
