@@ -5,10 +5,11 @@ public class PercolationStats {
 
 	private int mN;
 	private int mTrials;
-	private Percolation mPercolation;
+	// private Percolation mPercolation;
 	private double[] mPercolation_threshold;
 	// perform trials independent experiments on an n-by-n grid
    	public PercolationStats(int n, int trials) throws java.lang.IllegalArgumentException {
+
 
    		if (n <= 0 || trials <= 0) {
          	throw new java.lang.IllegalArgumentException("n<=0 or trials <=0");
@@ -17,13 +18,13 @@ public class PercolationStats {
    			mTrials = trials;
    			mPercolation_threshold = new double[trials];
    			for (int i = 0; i < mTrials; i++) {
-   				mPercolation = new Percolation(mN);
-   				while (!mPercolation.percolates()) {
+   				Percolation percolation = new Percolation(mN);
+   				while (!percolation.percolates()) {
    					int row = StdRandom.uniform(mN) +1;
    					int col = StdRandom.uniform(mN) +1;
-   					mPercolation.open(row, col);
+   					percolation.open(row, col);
    				}
-   				int numOpenSites = mPercolation.numberOfOpenSites();
+   				int numOpenSites = percolation.numberOfOpenSites();
    				double threshold = (double) numOpenSites/(mN*mN);
    				mPercolation_threshold[i] = threshold;
    			}
