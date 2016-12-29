@@ -14,14 +14,12 @@ public class Percolation {
       } else {
          mN = n;
          mSites = new int[mN*mN+2];  // values initialized to 0 in java, none open
-         // for (int i=0; i<N*N-1; i++) {
-         //    sites[i] = i;
-         // }
          mQuickUnionUF = new WeightedQuickUnionUF(mN*mN+2);
-         // union
-         for (int i = 0; i <= mN; i++) {
-            mQuickUnionUF.union(0, i);
-            mQuickUnionUF.union(mN*mN+1, mN*mN+1-i);
+         if (mN > 1) {
+            for (int i = 0; i <= mN; i++) {
+               mQuickUnionUF.union(0, i);
+               mQuickUnionUF.union(mN*mN+1, mN*mN+1-i);
+            }
          }
       }
    }  
@@ -30,33 +28,40 @@ public class Percolation {
          throws java.lang.IndexOutOfBoundsException {
       if (xyValid(row, col)) {
          int index = xyTo1D(row, col);
-         if (mSites[index] == 0) {
-            mOpenSites += 1;
+         if (mN == 1) {
+            mOpenSites +=1;
             mSites[index] = 1;
-            // System.out.println("Total Sites opened: " + openSites); 
+            mQuickUnionUF.union(0,1);
+            mQuickUnionUF.union(2,1);
+         } else {
+            if (mSites[index] == 0) {
+               mOpenSites += 1;
+               mSites[index] = 1;
+               // System.out.println("Total Sites opened: " + openSites); 
 
-            // right
-            if (col != mN) {
-               if (mSites[index+1] == 1) {
-                  mQuickUnionUF.union(index, index+1);
+               // right
+               if (col != mN) {
+                  if (mSites[index+1] == 1) {
+                     mQuickUnionUF.union(index, index+1);
+                  }
                }
-            }
-            // left
-            if (col != 1) {
-               if (mSites[index-1] == 1) {
-                  mQuickUnionUF.union(index, index-1);
+               // left
+               if (col != 1) {
+                  if (mSites[index-1] == 1) {
+                     mQuickUnionUF.union(index, index-1);
+                  }
                }
-            }
-            // up
-            if (row != 1) {
-               if (mSites[index-mN] == 1) {
-                  mQuickUnionUF.union(index, index-mN);
+               // up
+               if (row != 1) {
+                  if (mSites[index-mN] == 1) {
+                     mQuickUnionUF.union(index, index-mN);
+                  }
                }
-            }
-            // down
-            if (row != mN) {
-               if (mSites[index+mN] == 1) {
-                  mQuickUnionUF.union(index, index+mN);
+               // down
+               if (row != mN) {
+                  if (mSites[index+mN] == 1) {
+                     mQuickUnionUF.union(index, index+mN);
+                  }
                }
             }
          }
@@ -113,7 +118,6 @@ public class Percolation {
    // test client (optional)    
    public static void main(String[] args) {
       // Percolation myPercolation = new Percolation(9);
-      // int n = myPercolation.getN();
       // System.out.println("Total Sites: " + n + " by " + n + " = " + n*n ); 
       // System.out.println("Opening 1,3");
       // myPercolation.open(1,3);
@@ -153,7 +157,13 @@ public class Percolation {
       // } catch (java.lang.IllegalArgumentException iae) {
       //    System.err.println("error: " + iae.getMessage());
       // }
+      Percolation myPercolation = new Percolation(1);
+      System.out.println("Does system percolate? " + myPercolation.percolates());
 
+      myPercolation.open(1,1);
+      System.out.println("Opening 1,1");
+
+      System.out.println("Does system percolate? " + myPercolation.percolates());
    }
 
 }
