@@ -26,7 +26,8 @@ public class Percolation {
       }
    }  
    // open site (row, col) if it is not open already
-   public void open(int row, int col) {
+   public void open(int row, int col) 
+         throws java.lang.IndexOutOfBoundsException {
       if (xyValid(row, col)) {
          int index = xyTo1D(row, col);
          if (mSites[index] == 0) {
@@ -59,22 +60,33 @@ public class Percolation {
                }
             }
          }
+      } else {
+         throw new java.lang.IndexOutOfBoundsException();
       }
    } 
    // is site (row, col) open? 
    public boolean isOpen(int row, int col) {
-      int index = xyTo1D(row, col);
-      return (mSites[index] == 1);
+      if (xyValid(row, col)) {
+         int index = xyTo1D(row, col);
+         return (mSites[index] == 1);
+      } else {
+         throw new java.lang.IndexOutOfBoundsException();
+      }
    } 
    // is site (row, col) full?
    public boolean isFull(int row, int col) {
       boolean full = false;
-      if (isOpen(row, col)) {
-         int index = xyTo1D(row, col);
-         // index 0 is virtual node, connected to first row
-         full = mQuickUnionUF.connected(index, 0);
-         //System.out.println("Is Full, index through node 1: " + full);
+      if (xyValid(row, col)) {
 
+         if (isOpen(row, col)) {
+            int index = xyTo1D(row, col);
+            // index 0 is virtual node, connected to first row
+            full = mQuickUnionUF.connected(index, 0);
+            //System.out.println("Is Full, index through node 1: " + full);
+
+         }
+      } else {
+         throw new java.lang.IndexOutOfBoundsException();
       }
       return full;
    }
