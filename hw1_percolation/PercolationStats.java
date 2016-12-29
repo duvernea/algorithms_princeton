@@ -1,58 +1,53 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
 
 public class PercolationStats {
 
-	private int N;
-	private int trials;
-	private Percolation percolation;
-	private double mean;
-	private double percolation_threshold[];
+	private int mN;
+	private int mTrials;
+	private Percolation mPercolation;
+	private double[] mPercolation_threshold;
 	// perform trials independent experiments on an n-by-n grid
    	public PercolationStats(int n, int trials) throws java.lang.IllegalArgumentException {
-   		mean = 0;
 
    		if (n <= 0 || trials <= 0) {
          	throw new java.lang.IllegalArgumentException("n<=0 or trials <=0");
       	} else {
-   			this.N = n;
-   			this.trials = trials;
-   			percolation_threshold = new double[trials];
-   			for (int i=0; i < trials; i++) {
-   				percolation = new Percolation(N);
-   				while (!percolation.percolates()) {
-   					int row = StdRandom.uniform(N) +1;
-   					int col = StdRandom.uniform(N) +1;
-   					percolation.open(row, col);
+   			mN = n;
+   			mTrials = trials;
+   			mPercolation_threshold = new double[trials];
+   			for (int i = 0; i < mTrials; i++) {
+   				mPercolation = new Percolation(mN);
+   				while (!mPercolation.percolates()) {
+   					int row = StdRandom.uniform(mN) +1;
+   					int col = StdRandom.uniform(mN) +1;
+   					mPercolation.open(row, col);
    				}
-   				int numOpenSites = percolation.numberOfOpenSites();
-   				double threshold = (double) numOpenSites/(N*N);
-   				System.out.println("Threshold at percolation: " + threshold);
-   				percolation_threshold[i] = threshold;
+   				int numOpenSites = mPercolation.numberOfOpenSites();
+   				double threshold = (double) numOpenSites/(mN*mN);
+   				mPercolation_threshold[i] = threshold;
    			}
    		}
    	} 
 
    	// sample mean of percolation threshold
    	public double mean() {
-   		return StdStats.mean(percolation_threshold);
+   		return StdStats.mean(mPercolation_threshold);
    	}     
 
    	// sample standard deviation of percolation threshold                    
    	public double stddev() {
-   		return StdStats.stddev(percolation_threshold);
+   		return StdStats.stddev(mPercolation_threshold);
    	}
 
    	// low  endpoint of 95% confidence interval                      
    	public double confidenceLo() {
-   		return mean() - 1.96*stddev()/Math.sqrt(trials);
+   		return mean() - 1.96*stddev()/Math.sqrt(mTrials);
    	}
 
    	// high endpoint of 95% confidence interval                
    	public double confidenceHi() {
-   		return mean() + 1.96*stddev()/Math.sqrt(trials);
+   		return mean() + 1.96*stddev()/Math.sqrt(mTrials);
    	}                 
 
 	// test client (described below)

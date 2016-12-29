@@ -1,69 +1,61 @@
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-   private int N;
-   private int[] sites;
-   private WeightedQuickUnionUF quickUnionUF;
-   private int openSites = 0;
+   private int mN;
+   private int[] mSites;
+   private WeightedQuickUnionUF mQuickUnionUF;
+   private int mOpenSites = 0;
     
    // create n-by-n grid, with all sites blocked 
    public Percolation(int n) throws java.lang.IllegalArgumentException {
       if (n <= 0) {
          throw new java.lang.IllegalArgumentException("n<=0");
       } else {
-         N = n;
-         sites = new int[N*N+2];  // values initialized to 0 in java, none open
+         mN = n;
+         mSites = new int[mN*mN+2];  // values initialized to 0 in java, none open
          // for (int i=0; i<N*N-1; i++) {
          //    sites[i] = i;
          // }
-         quickUnionUF = new WeightedQuickUnionUF(N*N+2);
+         mQuickUnionUF = new WeightedQuickUnionUF(mN*mN+2);
          // union
-         for (int i = 0; i <= N; i++) {
-            quickUnionUF.union(0, i);
-            quickUnionUF.union(N*N+1, N*N+1-i);
+         for (int i = 0; i <= mN; i++) {
+            mQuickUnionUF.union(0, i);
+            mQuickUnionUF.union(mN*mN+1, mN*mN+1-i);
          }
       }
    }  
-   private int getN() {
-      return N;
-   }
-   private int getValue(int idx) {
-      return sites[idx];
-   }
    // open site (row, col) if it is not open already
    public void open(int row, int col) {
       if (xyValid(row, col)) {
          int index = xyTo1D(row, col);
-         if (sites[index] == 0) {
-            openSites += 1;
-            sites[index] = 1;
-            //System.out.println("Total Sites opened: " + openSites); 
+         if (mSites[index] == 0) {
+            mOpenSites += 1;
+            mSites[index] = 1;
+            // System.out.println("Total Sites opened: " + openSites); 
 
-            //right
-            if (col != N) {
-               if (sites[index+1] == 1) {
-                  quickUnionUF.union(index, index+1);
+            // right
+            if (col != mN) {
+               if (mSites[index+1] == 1) {
+                  mQuickUnionUF.union(index, index+1);
                }
             }
             // left
             if (col != 1) {
-               if (sites[index-1] == 1) {
-                  quickUnionUF.union(index, index-1);
+               if (mSites[index-1] == 1) {
+                  mQuickUnionUF.union(index, index-1);
                }
             }
             // up
             if (row != 1) {
-               if (sites[index-N] == 1) {
-                  quickUnionUF.union(index, index-N);
+               if (mSites[index-mN] == 1) {
+                  mQuickUnionUF.union(index, index-mN);
                }
             }
             // down
-            if (row != N) {
-               if (sites[index+N] == 1) {
-                  quickUnionUF.union(index, index+N);
+            if (row != mN) {
+               if (mSites[index+mN] == 1) {
+                  mQuickUnionUF.union(index, index+mN);
                }
             }
          }
@@ -72,7 +64,7 @@ public class Percolation {
    // is site (row, col) open? 
    public boolean isOpen(int row, int col) {
       int index = xyTo1D(row, col);
-      return (sites[index] == 1);
+      return (mSites[index] == 1);
    } 
    // is site (row, col) full?
    public boolean isFull(int row, int col) {
@@ -80,7 +72,7 @@ public class Percolation {
       if (isOpen(row, col)) {
          int index = xyTo1D(row, col);
          // index 0 is virtual node, connected to first row
-         full = quickUnionUF.connected(index, 0);
+         full = mQuickUnionUF.connected(index, 0);
          //System.out.println("Is Full, index through node 1: " + full);
 
       }
@@ -88,13 +80,24 @@ public class Percolation {
    }
    // number of open sites
    public int numberOfOpenSites() {
-      return openSites;
+      return mOpenSites;
    }
    // does the system percolate?    
    public boolean percolates()  {
-       boolean percolates = quickUnionUF.connected(0, N*N+1);
+       boolean percolates = mQuickUnionUF.connected(0, mN*mN+1);
        return percolates;
    }
+   private int xyTo1D(int row, int col) {
+   if (xyValid(row, col)) {
+      return (row-1)*mN + (col-1) + 1;
+   }
+   else {
+      return -1;
+   }
+   }
+   private boolean xyValid(int row, int col) {
+      return row <= mN && col <= mN && row > 0 && col > 0;
+   } 
    // test client (optional)    
    public static void main(String[] args) {
       // Percolation myPercolation = new Percolation(9);
@@ -140,15 +143,5 @@ public class Percolation {
       // }
 
    }
-   private int xyTo1D(int row, int col) {
-      if (xyValid(row, col)) {
-         return (row-1)*N + (col-1) + 1;
-      }
-      else {
-         return -1;
-      }
-   }
-   private boolean xyValid(int row, int col) {
-      return row <= N && col <= N && row >0 && col > 0;
-   }
+
 }
