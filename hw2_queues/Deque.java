@@ -144,7 +144,19 @@ public class Deque<Item> implements Iterable<Item> {
 
 		System.out.println("Deque size: " + myDeque.size());
 
-		// First
+		Iterator<String> i = myDeque.iterator();
+		while (i.hasNext())
+		{
+		 String s = i.next();
+		 System.out.println(s);
+		}
+
+		// Equivalent iterator test
+		for (String s : myDeque) {
+ 			System.out.println(s);
+ 		}
+
+		First
 		System.out.println("First item removed: " + myDeque.removeFirst());
 		System.out.println("Last item removed: " + myDeque.removeLast());
 		System.out.println("Last item removed: " + myDeque.removeLast());
@@ -158,9 +170,5 @@ public class Deque<Item> implements Iterable<Item> {
 		System.out.println("Last item removed: " + myDeque.removeLast());
 		System.out.println("Last item removed: " + myDeque.removeLast());
 		System.out.println("Last item removed: " + myDeque.removeLast());
-
-
-
-
 	} 
 }
