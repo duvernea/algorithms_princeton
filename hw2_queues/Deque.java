@@ -65,7 +65,7 @@ public class Deque<Item> implements Iterable<Item> {
 	// remove and return the item from the front
 	public Item removeFirst() {
 		if (N==0) {
-			throw new java.util.NoSuchElementException();
+			throw new java.lang.UnsupportedOperationException();
 		}
 		Item firstItem = first.item;
 		first = first.next;
@@ -76,7 +76,7 @@ public class Deque<Item> implements Iterable<Item> {
 	// remove and return the item from the end
 	public Item removeLast() {
 		if (N==0) {
-			throw new java.util.NoSuchElementException();
+			throw new java.lang.UnsupportedOperationException();
 		}
 		Item item = last.item;
 		if (N==1) {
