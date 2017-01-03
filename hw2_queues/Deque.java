@@ -64,6 +64,9 @@ public class Deque<Item> implements Iterable<Item> {
 
 	// remove and return the item from the front
 	public Item removeFirst() {
+		if (N==0) {
+			throw new java.util.NoSuchElementException();
+		}
 		Item firstItem = first.item;
 		first = first.next;
 		N--;
@@ -72,6 +75,9 @@ public class Deque<Item> implements Iterable<Item> {
 
 	// remove and return the item from the end
 	public Item removeLast() {
+		if (N==0) {
+			throw new java.util.NoSuchElementException();
+		}
 		Item item = last.item;
 		if (N==1) {
 			last = null;
@@ -138,6 +144,9 @@ public class Deque<Item> implements Iterable<Item> {
 		myDeque.addFirst("Adding a new string after N=0");
 		System.out.println("Deque size: " + myDeque.size());
 		System.out.println("Last item removed: " + myDeque.removeLast());
+		System.out.println("Last item removed: " + myDeque.removeLast());
+		System.out.println("Last item removed: " + myDeque.removeLast());
+
 
 
 
