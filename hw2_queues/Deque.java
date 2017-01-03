@@ -27,6 +27,9 @@ public class Deque<Item> implements Iterable<Item> {
 
    	// add the item to the front
 	public void addFirst(Item item) {
+		if (item == null) {
+			throw new java.lang.NullPointerException();
+		}
 
 		N++;
 		Node newFirst = new Node();
@@ -47,6 +50,9 @@ public class Deque<Item> implements Iterable<Item> {
 
 	// add the item to the end        
 	public void addLast(Item item) {
+		if (item == null) {
+			throw new java.lang.NullPointerException();
+		}
 
 		N++;
 		Node newLast = new Node();
@@ -65,7 +71,7 @@ public class Deque<Item> implements Iterable<Item> {
 	// remove and return the item from the front
 	public Item removeFirst() {
 		if (N==0) {
-			throw new java.lang.UnsupportedOperationException();
+			throw new java.util.NoSuchElementException();
 		}
 		Item firstItem = first.item;
 		first = first.next;
@@ -76,7 +82,7 @@ public class Deque<Item> implements Iterable<Item> {
 	// remove and return the item from the end
 	public Item removeLast() {
 		if (N==0) {
-			throw new java.lang.UnsupportedOperationException();
+			throw new java.util.NoSuchElementException();
 		}
 		Item item = last.item;
 		if (N==1) {
@@ -98,14 +104,20 @@ public class Deque<Item> implements Iterable<Item> {
 	}
 
 	private class QueueIterator implements Iterator<Item> {
+
 		private Node current = first;
 
 		public boolean hasNext() {
 			return current != null;
 		}
-		public void remove() {}
+		public void remove() {
+			throw new java.lang.UnsupportedOperationException();
+		}
 
 		public Item next() {
+			if (current == null) {
+				throw new java.util.NoSuchElementException();
+			}
 			Item item = current.item;
 			current = current.next;
 			return item;
