@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdOut;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
@@ -16,6 +17,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    			temp[i] = items[i];
    		}
    		items = temp;
+   		StdOut.println("Array resized to " + max + " items.");
    	}
 
    	// is the queue empty?
@@ -26,6 +28,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
    	// add the item
    	public void enqueue(Item item) {
+   		if (N == items.length) {
+   			resize(2*items.length);
+   		}
+   		items[N++] = item;
 
 	} 
 
@@ -34,6 +40,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    	public Item dequeue() {
    		// 	Returns a random integer uniformly in [0, n).
    		int index = StdRandom.uniform(N);
+
+   		StdOut.println("random index: " + index);
 
    		return items[0];
 
@@ -71,6 +79,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	// unit testing       
 	public static void main(String[] args)  {
+
+		RandomizedQueue<String> randQueue = new RandomizedQueue<String>();
+
+		int N = 5;
+		String[] myStrings = new String[N];
+		for (int i=0; i<N; i++) {
+			myStrings[i] = "Item " + i + " " + Integer.toString(i);
+		}
+
+		randQueue.enqueue(myStrings[0]);
+		randQueue.enqueue(myStrings[1]);
+		randQueue.enqueue(myStrings[2]);
+		randQueue.enqueue(myStrings[3]);
+		randQueue.enqueue(myStrings[4]);
+
+
+
+		StdOut.println("is empty?: " + randQueue.isEmpty());
+		StdOut.println("size: " + randQueue.size());
+
+		StdOut.println("dequeue test: " + randQueue.dequeue());
 
 	} 
 }
