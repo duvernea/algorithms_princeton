@@ -1,8 +1,10 @@
 import java.util.Iterator;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-	private Item item;
+	private Item[] items = (Item[]) new Object[1];
+	private int N = 0;
 
 	// construct an empty randomized queue
    	public RandomizedQueue() {
@@ -10,14 +12,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    	}
 
    	// is the queue empty?
-   	public boolean isEmpty() {
-   		return false;
-   	}
+   	public boolean isEmpty() { return (N==0); }
 
    	// return the number of items on the queue
-   	public int size() {
-   		return 0;
-   	}
+   	public int size() { return N; }
 
    	// add the item
    	public void enqueue(Item item) {
@@ -27,13 +25,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	// remove and return a random item
 
    	public Item dequeue() {
-   		return item;
+   		// 	Returns a random integer uniformly in [0, n).
+   		int index = StdRandom.uniform(N);
+
+   		return items[0];
 
    	}
 
    	// return (but do not remove) a random item                 
    	public Item sample() {
-   		return item;
+   		return items[0];
 
 	}
 
@@ -44,7 +45,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	private class RandomizedQueueIterator implements Iterator<Item> {
 
-		private Item current = item;
+		private Item current = items[0];
 
 		public boolean hasNext() {
 			return current != null;
