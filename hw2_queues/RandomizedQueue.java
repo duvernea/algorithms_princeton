@@ -10,6 +10,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    	public RandomizedQueue() {
 
    	}
+   	private void resize(int max) {
+   		Item[] temp = (Item[]) new Object[max];
+   		for (int i = 0; i < N; i++) {
+   			temp[i] = items[i];
+   		}
+   		items = temp;
+   	}
 
    	// is the queue empty?
    	public boolean isEmpty() { return (N==0); }
