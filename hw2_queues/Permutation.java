@@ -6,8 +6,13 @@ public class Permutation {
 
 	public static void main(String[] args) {
 
-		int test = StdIn.readInt();
-		StdOut.println("Read integer: " + test);
+		int K = Integer.parseInt(args[0]); 
+		StdOut.println("Read K: " + K);
 
+		while (!StdIn.isEmpty()) {
+			String test = StdIn.readString();
+
+			StdOut.println("Read string: " + test);
+		}
 	}
 }
