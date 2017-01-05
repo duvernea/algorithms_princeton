@@ -6,13 +6,22 @@ public class Permutation {
 
 	public static void main(String[] args) {
 
+		RandomizedQueue<String> randQueue = new RandomizedQueue<String>();
+
 		int K = Integer.parseInt(args[0]); 
-		StdOut.println("Read K: " + K);
+		// StdOut.println("Read K: " + K);
 
 		while (!StdIn.isEmpty()) {
-			String test = StdIn.readString();
-
-			StdOut.println("Read string: " + test);
+			String readString = StdIn.readString();
+			randQueue.enqueue(readString);
+			//StdOut.println("Read string: " + test);
+		}
+		// for (String a : randQueue) {
+		// 	StdOut.println("read string: " + a);
+		// }
+		for (int i=0; i < K; i++) {
+			String randString = randQueue.dequeue();
+			StdOut.println(randString);
 		}
 	}
 }

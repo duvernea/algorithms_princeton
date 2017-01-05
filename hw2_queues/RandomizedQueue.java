@@ -17,7 +17,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			temp[i] = items[i];
 		}
 		items = temp;
-		StdOut.println("Array resized to " + max + " items.");
+		// StdOut.println("Array resized to " + max + " items.");
 	}
 
 	// is the queue empty?
@@ -41,7 +41,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		// 	Returns a random integer uniformly in [0, n).
 		int index = StdRandom.uniform(N);
 
-		StdOut.println("random index: " + index);
+		// StdOut.println("random index: " + index);
 		Item item = items[index];
 		items[index] = items[N-1];
 		items[N-1] = null;
