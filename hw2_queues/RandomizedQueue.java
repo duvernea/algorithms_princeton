@@ -86,26 +86,5 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
   		org.junit.runner.JUnitCore.main("TestRandomizedQueue");
 
-		// RandomizedQueue<String> randQueue = new RandomizedQueue<String>();
-
-		// int N = 5;
-		// String[] myStrings = new String[N];
-		// for (int i=0; i<N; i++) {
-		// 	myStrings[i] = "Item " + i + " " + Integer.toString(i);
-		// }
-
-		// randQueue.enqueue(myStrings[0]);
-		// randQueue.enqueue(myStrings[1]);
-		// randQueue.enqueue(myStrings[2]);
-		// randQueue.enqueue(myStrings[3]);
-		// randQueue.enqueue(myStrings[4]);
-
-
-
-		// StdOut.println("is empty?: " + randQueue.isEmpty());
-		// StdOut.println("size: " + randQueue.size());
-
-		// StdOut.println("dequeue test: " + randQueue.dequeue());
-
 	} 
 }

@@ -13,19 +13,19 @@ public class Deque<Item> implements Iterable<Item> {
 	}
 
 	// construct an empty deque
-   	public Deque() {}
+	public Deque() {}
 
-   	// is the deque empty?
-   	public boolean isEmpty() {
-   		return (N==0);
-   	}  
+	// is the deque empty?
+	public boolean isEmpty() {
+		return (N==0);
+	}
 
-   	// return the number of items on the deque
-   	public int size() {
-   		return N;
-   	}           
+	// return the number of items on the deque
+	public int size() {
+		return N;
+	}
 
-   	// add the item to the front
+	// add the item to the front
 	public void addFirst(Item item) {
 		if (item == null) {
 			throw new java.lang.NullPointerException();
