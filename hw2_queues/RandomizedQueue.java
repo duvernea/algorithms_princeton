@@ -42,8 +42,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    		int index = StdRandom.uniform(N);
 
    		StdOut.println("random index: " + index);
-
-   		return items[0];
+   		Item item = items[index];
+   		items[index] = items[N-1];
+   		items[N-1] = null;
+   		N--;
+   		return item;
 
    	}
 

@@ -31,6 +31,14 @@ public class TestRandomizedQueue {
         for (int i = 0; i<20; i++) {
         	StdOut.println("random sample: " + randQueue.sample());
         }
+        String a = randQueue.dequeue();
+        StdOut.println("String " + a + " dequeued");
+        assertEquals("Removed 1 item, size() is not equal 4", randQueue.size(), 4);
+
+        for (int i = 0; i<20; i++) {
+        	StdOut.println("random sample: " + randQueue.sample());
+        }
+
 
     }
 }
