@@ -49,7 +49,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
    	// return (but do not remove) a random item                 
    	public Item sample() {
-   		return items[0];
+   		int index = StdRandom.uniform(N);
+   		return items[index];
 
 	}
 
