@@ -1,11 +1,10 @@
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdOut;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-	private Item[] items = (Item[]) new Object[1];
-	private int N = 0;
+	private Item[] mItems = (Item[]) new Object[1];
+	private int mN = 0;
 
 // construct an empty randomized queue
 	public RandomizedQueue() {
@@ -13,25 +12,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	private void resize(int max) {
 		Item[] temp = (Item[]) new Object[max];
-		for (int i = 0; i < N; i++) {
-			temp[i] = items[i];
+		for (int i = 0; i < mN; i++) {
+			temp[i] = mItems[i];
 		}
-		items = temp;
+		mItems = temp;
 		// StdOut.println("Array resized to " + max + " items.");
 	}
 
 	// is the queue empty?
-	public boolean isEmpty() { return (N==0); }
+	public boolean isEmpty() { return (mN == 0); }
 
 	// return the number of items on the queue
-	public int size() { return N; }
+	public int size() { return mN; }
 
 	// add the item
 	public void enqueue(Item item) {
-		if (N == items.length) {
-			resize(2*items.length);
+		if (mN == mItems.length) {
+			resize(2*mItems.length);
 		}
-		items[N++] = item;
+		mItems[mN++] = item;
 
 } 
 
@@ -39,21 +38,21 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	public Item dequeue() {
 		// 	Returns a random integer uniformly in [0, n).
-		int index = StdRandom.uniform(N);
+		int index = StdRandom.uniform(mN);
 
 		// StdOut.println("random index: " + index);
-		Item item = items[index];
-		items[index] = items[N-1];
-		items[N-1] = null;
-		N--;
+		Item item = mItems[index];
+		mItems[index] = mItems[mN-1];
+		mItems[mN-1] = null;
+		mN--;
 		return item;
 
 	}
 
 	// return (but do not remove) a random item                 
 	public Item sample() {
-		int index = StdRandom.uniform(N);
-		return items[index];
+		int index = StdRandom.uniform(mN);
+		return mItems[index];
 
 	}
 
@@ -65,27 +64,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private class RandomizedQueueIterator implements Iterator<Item> {
 
 		private int index = 0;
-		//private Item[] = new Item[N];
+		// private Item[] = new Item[N];
 
 		public boolean hasNext() {
-			return index<N;
+			return index < mN;
 		}
 		public void remove() {
 			throw new java.lang.UnsupportedOperationException();
 		}
 
 		public Item next() {
-			if (index > N) {
+			if (index > mN) {
 				throw new java.util.NoSuchElementException();
 			}
-			return items[index++];
+			return mItems[index++];
 		}
 	}
 
 	// unit testing       
 	public static void main(String[] args)  {
 
-		org.junit.runner.JUnitCore.main("TestRandomizedQueue");
+		// org.junit.runner.JUnitCore.main("TestRandomizedQueue");
 
 	} 
 }

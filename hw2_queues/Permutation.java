@@ -8,18 +8,18 @@ public class Permutation {
 
 		RandomizedQueue<String> randQueue = new RandomizedQueue<String>();
 
-		int K = Integer.parseInt(args[0]); 
+		int k = Integer.parseInt(args[0]); 
 		// StdOut.println("Read K: " + K);
 
 		while (!StdIn.isEmpty()) {
 			String readString = StdIn.readString();
 			randQueue.enqueue(readString);
-			//StdOut.println("Read string: " + test);
+			// StdOut.println("Read string: " + test);
 		}
 		// for (String a : randQueue) {
 		// 	StdOut.println("read string: " + a);
 		// }
-		for (int i=0; i < K; i++) {
+		for (int i = 0; i < k; i++) {
 			String randString = randQueue.dequeue();
 			StdOut.println(randString);
 		}
