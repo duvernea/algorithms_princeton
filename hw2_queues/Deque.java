@@ -156,7 +156,6 @@ public class Deque<Item> implements Iterable<Item> {
  			System.out.println(s);
  		}
 
-		First
 		System.out.println("First item removed: " + myDeque.removeFirst());
 		System.out.println("Last item removed: " + myDeque.removeLast());
 		System.out.println("Last item removed: " + myDeque.removeLast());
