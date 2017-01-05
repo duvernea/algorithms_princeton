@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 import edu.princeton.cs.algs4.StdOut;
+import java.util.Iterator;
+
 
 import org.junit.Test;
 
@@ -37,5 +39,21 @@ public class TestRandomizedQueue {
 		for (int i = 0; i<20; i++) {
 			StdOut.println("random sample: " + randQueue.sample());
 		}
+		Iterator<String> i = randQueue.iterator();
+		StdOut.println("Create Iterator...");
+		while (i.hasNext()) {
+			String s = i.next();
+			StdOut.println("Iterator " + s);
+		}
+		String b = randQueue.dequeue();
+		StdOut.println("String " + b + " dequeued");
+		assertEquals("Removed 1 item, size() is not equal 3", randQueue.size(), 3);
+
+		i = randQueue.iterator();
+		while (i.hasNext()) {
+			String s = i.next();
+			StdOut.println("Iterator " + s);
+		}
+
 	}
 }
