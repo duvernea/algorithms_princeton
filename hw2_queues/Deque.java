@@ -61,6 +61,7 @@ public class Deque<Item> implements Iterable<Item> {
 
 		if (mN == 1) {
 			newLast.prev = null;
+			mFirst = newLast;
 		} else {
 			newLast.prev = mLast;
 			mLast.next = newLast;
@@ -128,49 +129,6 @@ public class Deque<Item> implements Iterable<Item> {
 	public static void main(String[] args)  {
 
 		org.junit.runner.JUnitCore.main("TestDeque");
-
-		// Deque<String> myDeque = new Deque<String>();
-
-		// int n = 5;
-		// String[] myStrings = new String[n];
-		// for (int i = 0; i < n; i++) {
-		// 	myStrings[i] = "Item " + i + " " + Integer.toString(i);
-		// }
-
-		// System.out.println("Add 5 strings");
-		// myDeque.addFirst(myStrings[0]);
-		// myDeque.addFirst(myStrings[1]);
-		// myDeque.addFirst(myStrings[2]);
-		// myDeque.addFirst(myStrings[3]);
-		// myDeque.addFirst(myStrings[4]);
-		// myDeque.addLast(myStrings[4]);
-
-		// System.out.println("Deque size: " + myDeque.size());
-
-		// Iterator<String> i = myDeque.iterator();
-		// while (i.hasNext())
-		// {
-		//  String s = i.next();
-		//  System.out.println(s);
-		// }
-
-		// // Equivalent iterator test
-		// for (String s : myDeque) {
- 	// 		System.out.println(s);
- 	// 	}
-
-		// System.out.println("First item removed: " + myDeque.removeFirst());
-		// System.out.println("Last item removed: " + myDeque.removeLast());
-		// System.out.println("Last item removed: " + myDeque.removeLast());
-		// System.out.println("First item removed: " + myDeque.removeFirst());
-		// System.out.println("First item removed: " + myDeque.removeFirst());
-
-		// System.out.println("Deque size: " + myDeque.size());
-
-		// myDeque.addFirst("Adding a new string after N=0");
-		// System.out.println("Deque size: " + myDeque.size());
-		// System.out.println("Last item removed: " + myDeque.removeLast());
-		// System.out.println("Last item removed: " + myDeque.removeLast());
-		// System.out.println("Last item removed: " + myDeque.removeLast());
+	
 	} 
 }
