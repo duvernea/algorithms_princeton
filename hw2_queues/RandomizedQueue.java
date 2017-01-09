@@ -72,8 +72,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	private class RandomizedQueueIterator implements Iterator<Item> {
 
+		public RandomizedQueueIterator() {
+			itemIterator = (Item[]) new Object[mN];
+			for (int i = 0; i< mN; i++) {
+				itemIterator[i] = mItems[i];
+			}
+
+			StdRandom.shuffle(itemIterator);
+		}
+
 		private int index = 0;
-		// private Item[] = new Item[N];
+		private Item[]  itemIterator;
 
 		public boolean hasNext() {
 			return index < mN;
@@ -83,17 +92,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		}
 
 		public Item next() {
-			if (index > mN) {
+			if (index >= mN) {
 				throw new java.util.NoSuchElementException();
 			}
-			return mItems[index++];
+			return itemIterator[index++];
 		}
 	}
 
 	// unit testing       
 	public static void main(String[] args)  {
 
-		// org.junit.runner.JUnitCore.main("TestRandomizedQueue");
+		org.junit.runner.JUnitCore.main("TestRandomizedQueue");
 
 	} 
 }
