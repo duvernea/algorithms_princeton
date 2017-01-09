@@ -27,6 +27,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	// add the item
 	public void enqueue(Item item) {
+		if (item == null) {
+			throw new java.lang.NullPointerException();
+		}
 		if (mN == mItems.length) {
 			resize(2*mItems.length);
 		}
@@ -37,6 +40,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	// remove and return a random item
 
 	public Item dequeue() {
+		if (mN == 0) {
+			throw new java.util.NoSuchElementException();
+		}
 		// 	Returns a random integer uniformly in [0, n).
 		int index = StdRandom.uniform(mN);
 
@@ -51,6 +57,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	// return (but do not remove) a random item                 
 	public Item sample() {
+		if (mN == 0) {
+			throw new java.util.NoSuchElementException();
+		}
 		int index = StdRandom.uniform(mN);
 		return mItems[index];
 
