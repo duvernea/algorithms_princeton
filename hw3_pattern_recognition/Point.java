@@ -77,7 +77,24 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
-        return 0;
+        // The compareTo() method should compare points by their y-coordinates, breaking ties by their x-coordinates. 
+        // Formally, the invoking point (x0, y0) is less than the argument point (x1, y1) 
+        // if and only if either y0 < y1 or if y0 = y1 and x0 < x1.
+        if (this.y < that.y) {
+            return -1;
+        } else if (this.y > that.y) {
+            return 1;
+        } else {
+            // y is equal
+            if (this.x < that.y) {
+                return -1;
+            } else if (this.x > that.y) {
+                return 1;
+            } else {
+                // x and y are equal
+                return 0;
+            }
+        }
     }
 
     /**
