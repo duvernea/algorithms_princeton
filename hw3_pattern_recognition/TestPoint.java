@@ -17,6 +17,28 @@ public class TestPoint {
 		assertEquals("Point (3, 4) compareTo (3, 3) should be 1", myPoint1.compareTo(myPoint3), 1);
 		assertEquals("Point (1, 1) compareTo (1, 1) should be 0", myPoint2.compareTo(myPoint4), 0);
 		assertEquals("Point (-5, 1) compareTo (1, 1) should be -1", myPoint5.compareTo(myPoint2), -1);
+	}
+	@Test
+	public void testPointSlope() {
+		double epsilon = .001;
+
+		Point myPoint1 = new Point(2, 2);
+		Point myPoint2 = new Point(2, 4);
+		Point myPoint3 = new Point(0, 2);
+		Point myPoint4 = new Point(2, 4);
+		Point myPoint5 = new Point(6, 20);
+
+		assertEquals("Point (2, 2) slopeTo (2, 4) should be Positive Infinity", 
+			myPoint1.slopeTo(myPoint2), Double.POSITIVE_INFINITY, epsilon);;
+
+		assertEquals("Point (2, 2) slopeTo (0, 2) should be 0", 
+			myPoint1.slopeTo(myPoint3), 0, epsilon);
+
+		assertEquals("Point (2, 4) slopeTo (2, 4) should be Negative Infinity", 
+			myPoint2.slopeTo(myPoint4), Double.NEGATIVE_INFINITY, epsilon);
+
+		assertEquals("Point (2, 4) slopeTo (6, 20) should be 4", 
+			myPoint2.slopeTo(myPoint5), 4, epsilon);
 
 	}
 }
