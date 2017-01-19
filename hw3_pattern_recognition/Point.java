@@ -67,7 +67,7 @@ public class Point implements Comparable<Point> {
         } else if (this.y == that.y) {
             return 0;
         } else {
-            return (that.y - this.y) / (that.x - this.x);
+            return (double) (that.y - this.y) / (that.x - this.x);
         }
     }
 
@@ -85,9 +85,6 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
-        // The compareTo() method should compare points by their y-coordinates, breaking ties by their x-coordinates. 
-        // Formally, the invoking point (x0, y0) is less than the argument point (x1, y1) 
-        // if and only if either y0 < y1 or if y0 = y1 and x0 < x1.
         if (this.y < that.y) {
             return -1;
         } else if (this.y > that.y) {
@@ -116,11 +113,17 @@ public class Point implements Comparable<Point> {
         return BY_SLOPE;
     }
 
-    public static final Comparator<Point> BY_SLOPE = new BySlope();
+    public final Comparator<Point> BY_SLOPE = new BySlope();
 
-    public static class BySlope implements Comparator<Point> {
+    public class BySlope implements Comparator<Point> {
         public int compare(Point v, Point w) {
-            return 0;
+            if (slopeTo(v) < slopeTo(w)) {
+                return -1;
+            } else if (slopeTo(v) > slopeTo(w)) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
