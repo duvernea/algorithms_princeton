@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import org.junit.runner.JUnitCore;
+//import org.junit.runner.JUnitCore;
 
 public class FastCollinearPoints {
 
@@ -14,6 +14,11 @@ public class FastCollinearPoints {
 
 	// finds all line segments containing 4 or more points
  	public FastCollinearPoints(Point[] points) {
+
+ 		boolean duplicates = checkForDuplicatePoints(points);
+		if (duplicates) {
+			throw new java.lang.IllegalArgumentException();
+		}
 
  		mSegmentsList = new ArrayList<LineSegment>();
 
@@ -72,6 +77,18 @@ public class FastCollinearPoints {
 			}
 		}
  	}
+ 	private boolean checkForDuplicatePoints(Point[] points) {
+   		Point[] sortedPoints = new Point[points.length];
+		sortedPoints = Arrays.copyOf(points, points.length);
+		Arrays.sort(sortedPoints);
+		for (int i=0; i<sortedPoints.length-1; i++) {
+			int compare = sortedPoints[i].compareTo(sortedPoints[i+1]);
+			if (compare == 0) {
+				return true;
+			}
+		}
+		return false;
+   	}
 
  	// the number of line segments
 	public int numberOfSegments() {
