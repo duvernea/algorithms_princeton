@@ -113,9 +113,9 @@ public class Point implements Comparable<Point> {
         return BY_SLOPE;
     }
 
-    public final Comparator<Point> BY_SLOPE = new BySlope();
+    private final Comparator<Point> BY_SLOPE = new BySlope();
 
-    public class BySlope implements Comparator<Point> {
+    private class BySlope implements Comparator<Point> {
         public int compare(Point v, Point w) {
             if (slopeTo(v) < slopeTo(w)) {
                 return -1;
@@ -145,7 +145,7 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
-        org.junit.runner.JUnitCore.main("TestPoint");
+        // org.junit.runner.JUnitCore.main("TestPoint");
 
     }
 }
