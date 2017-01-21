@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.In;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-import org.junit.runner.JUnitCore;
+// import org.junit.runner.JUnitCore;
 
 
 public class BruteCollinearPoints {
@@ -17,20 +17,22 @@ public class BruteCollinearPoints {
 		if (points == null) {
 			throw new java.lang.NullPointerException();
 		}
+		boolean duplicates = checkForDuplicatePoints(points);
+		if (duplicates) {
+			throw new java.lang.IllegalArgumentException();
+		}
+
 		Point[] collinearPoints = new Point[4];
 		mSegmentsList = new ArrayList<LineSegment>();
 		int i, j, k, l;
 		for (i = 0; i < points.length - 3; i++ ) {
 			for (j = i+1; j<points.length - 2; j++) {
+					double slope1 = points[i].slopeTo(points[j]);
 				for (k = j+1; k<points.length - 1; k++) {
+						double slope2 = points[i].slopeTo(points[k]);
 					for (l = k+1; l<points.length; l++) {
-						if (points[i] != null && points[j] != null && points[k] != null & points[l] != null) {
-							double slope1 = points[i].slopeTo(points[j]);
-							double slope2 = points[i].slopeTo(points[k]);
+						if (points[i] != null && points[j] != null && points[k] != null && points[l] != null) {
 							double slope3 = points[i].slopeTo(points[l]);
-							if (slope1 == Double.NEGATIVE_INFINITY || slope2 == Double.NEGATIVE_INFINITY || slope3 == Double.NEGATIVE_INFINITY) {
-								throw new java.lang.IllegalArgumentException();
-							}
 							if (slope1 == slope2 && slope1 == slope3) {
 								collinearPoints[0] = points[i];
 								collinearPoints[1] = points[j];
@@ -47,6 +49,18 @@ public class BruteCollinearPoints {
 				}
 			}
 		}
+   	}
+   	private boolean checkForDuplicatePoints(Point[] points) {
+   		Point[] sortedPoints = new Point[points.length];
+		sortedPoints = Arrays.copyOf(points, points.length);
+		Arrays.sort(sortedPoints);
+		for (int i=0; i<sortedPoints.length-1; i++) {
+			int compare = sortedPoints[i].compareTo(sortedPoints[i+1]);
+			if (compare == 0) {
+				return true;
+			}
+		}
+		return false;
    	}
 
  	// the number of line segments
