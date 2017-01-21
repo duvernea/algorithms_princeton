@@ -110,23 +110,18 @@ public class Point implements Comparable<Point> {
      */
     public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
-        return BY_SLOPE;
-    }
-
-    private final Comparator<Point> BY_SLOPE = new BySlope();
-
-    private class BySlope implements Comparator<Point> {
-        public int compare(Point v, Point w) {
-            if (slopeTo(v) < slopeTo(w)) {
-                return -1;
-            } else if (slopeTo(v) > slopeTo(w)) {
-                return 1;
-            } else {
-                return 0;
+        return new Comparator<Point>() {
+            public int compare(Point v, Point w) {
+                if (slopeTo(v) < slopeTo(w)) {
+                    return -1;
+                } else if (slopeTo(v) > slopeTo(w)) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             }
-        }
+        };
     }
-
 
     /**
      * Returns a string representation of this point.
