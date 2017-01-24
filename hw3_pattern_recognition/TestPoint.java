@@ -20,6 +20,17 @@ public class TestPoint {
 		assertEquals("Point (3, 4) compareTo (3, 3) should be 1", myPoint1.compareTo(myPoint3), 1);
 		assertEquals("Point (1, 1) compareTo (1, 1) should be 0", myPoint2.compareTo(myPoint4), 0);
 		assertEquals("Point (-5, 1) compareTo (1, 1) should be -1", myPoint5.compareTo(myPoint2), -1);
+
+		Point myPoint6 = new Point(64, 496);
+		Point myPoint7 = new Point(64, 496);
+		StdOut.println("Compare (64, 496) to self: " + myPoint6.compareTo(myPoint7));
+	}
+	@Test
+	public void testPointVerticalSlope() {
+
+ 		Point point1 = new Point(4096, 22016);
+ 		Point point2 = new Point(4096, 23040);
+ 		StdOut.println("Slope from " + point1 + " to " + point2 + " is " + point1.slopeTo(point2));
 	}
 	@Test
 	public void testPointSlope() {
