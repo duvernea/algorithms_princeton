@@ -1,21 +1,46 @@
 
 import java.util.Stack;
 import java.util.Arrays;
+import java.util.List;
 import java.lang.Math;
+import java.lang.Iterable;
+import java.util.Iterator;
 
 import edu.princeton.cs.algs4.StdOut;
 
 public class Board {
 
     private final int[][] mBlocks;
+    private final int mEmptyRow;
+    private final int mEmptyCol;
 
     // construct a board from an n-by-n array of blocks
     // (where blocks[i][j] = block in row i, column j)
     public Board(int[][] blocks) {
-        mBlocks = blocks;
-        StdOut.println("Board created...");
-        StdOut.println("rows: " + mBlocks.length);
-        StdOut.println("columns: " + mBlocks[0].length);
+        boolean emptyAssigned = false;
+
+        int dim = blocks.length;
+        int empty_i = -1;
+        int empty_j = -1;
+        mBlocks = new int[dim][dim];
+
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                if (blocks[i][j] == 0) {
+                    emptyAssigned = true;
+                    empty_i = i;
+                    empty_j = j;
+                }
+                mBlocks[i][j] = blocks[i][j];
+            }
+        }
+        if (emptyAssigned) {
+            mEmptyRow = empty_i;
+            mEmptyCol = empty_j;
+        } else {
+            mEmptyRow = -1;
+            mEmptyCol = -1;
+        }
     }
 
     // board dimension n
@@ -94,20 +119,20 @@ public class Board {
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
         int dim = dimension();
-        int i_empty = 0;
-        int j_empty = 0;
+        // int i_empty = 0;
+        // int j_empty = 0;
         int[][] blocks = new int[dim][dim];
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
-                if (mBlocks[i][j] == 0) {
-                    i_empty = i;
-                    j_empty = j;
-                }
+                // if (mBlocks[i][j] == 0) {
+                //     i_empty = i;
+                //     j_empty = j;
+                // }
                 blocks[i][j] = mBlocks[i][j];
             }
         }
         // exchange pair of blocks
-        if (i_empty == 0) {
+        if (mEmptyRow == 0) {
             // empty block in 1st row, swap in 2nd row
             int temp = blocks[1][1];
             blocks[1][1] = blocks[1][0];
@@ -146,8 +171,31 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        // TEMP, so that class compiles
-        return new Stack<Board>();
+        int dim = dimension();
+        Stack<Board> neighbors = new Stack<Board>();
+        // 3 options for location of empty square
+        // 1. Square is in the corner -> Has 2 neighbors
+        if (mEmptyRow == 0 && mEmptyCol == 0) {
+            StdOut.println("Empty in the upper left corner");
+        }
+        if (mEmptyRow == 0 && mEmptyCol == dim - 1) {
+            StdOut.println("Empty in the upper right corner");
+        }
+        if (mEmptyRow == dim - 1 && mEmptyCol == 0) {
+            StdOut.println("Empty in the lower left corner");
+        }
+        if (mEmptyRow == dim - 1 && mEmptyCol == dim - 1) {
+            StdOut.println("Empty in the lower right corner");
+        }
+        // - i = 0, j = 0 | i = dim, j = dim
+        // 2. Square is along edge, but not in corner -> Has 3 neighbors
+        // 3. Square is not along an edge -> Has 4 neighbors
+
+
+        // TEMP
+        neighbors.add(this);
+
+        return neighbors;
     }
 
     // string representation of this board (in the output format specified below)
@@ -193,6 +241,13 @@ public class Board {
         StdOut.println("Manhattan board1: " + manhattan1);
         Board twin1 = board1.twin();
         StdOut.println("Board 1 twin toString() " + twin1);
+
+        Iterable<Board> neighbs1 = board1.neighbors();
+        Iterator<Board> iterator = neighbs1.iterator();
+        while (iterator.hasNext()) {
+            Board board = iterator.next();
+            StdOut.println("Board Neighbor Iterator " + board);
+        }
 
         Board board2 = new Board(matrix2);
         String board2String = board2.toString();
