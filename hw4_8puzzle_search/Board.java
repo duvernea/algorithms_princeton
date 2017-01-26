@@ -177,21 +177,26 @@ public class Board {
         // 1. Square is in the corner -> Has 2 neighbors
         if (mEmptyRow == 0 && mEmptyCol == 0) {
             StdOut.println("Empty in the upper left corner");
-        }
-        if (mEmptyRow == 0 && mEmptyCol == dim - 1) {
+            // Has 2 neighbs
+        } else if (mEmptyRow == 0 && mEmptyCol == dim - 1) {
             StdOut.println("Empty in the upper right corner");
-        }
-        if (mEmptyRow == dim - 1 && mEmptyCol == 0) {
+            // Has 2 neighbs
+        } else if (mEmptyRow == dim - 1 && mEmptyCol == 0) {
             StdOut.println("Empty in the lower left corner");
-        }
-        if (mEmptyRow == dim - 1 && mEmptyCol == dim - 1) {
+            // Has 2 neighbs
+        } else if (mEmptyRow == dim - 1 && mEmptyCol == dim - 1) {
             StdOut.println("Empty in the lower right corner");
+            // Has 2 neighbs
+        } else if (mEmptyRow == 0 || mEmptyRow == dim - 1 ) {
+            StdOut.println("Empty in the first or last row, but not corner");
+            // Has 3 neighbs
+        } else if (mEmptyCol == 0 || mEmptyCol == dim - 1 ) {
+            StdOut.println("Empty in the first or last col, but not corner");
+            // Has 3 neighbs
+        } else {
+            StdOut.println("Empty not along a wall");
+            // Has 4 neighbs
         }
-        // - i = 0, j = 0 | i = dim, j = dim
-        // 2. Square is along edge, but not in corner -> Has 3 neighbors
-        // 3. Square is not along an edge -> Has 4 neighbors
-
-
         // TEMP
         neighbors.add(this);
 
@@ -218,9 +223,9 @@ public class Board {
         StdOut.println("main run...");
         
         int [][] matrix = new int[][]{
-            {1,2,3},
-            {4,5,6},
-            {7,8, 0}, 
+            {4,1,2},
+            {7,0,6},
+            {8,5, 3}, 
         };
         int [][] matrix2 = new int[][]{
             {3,2,1},
