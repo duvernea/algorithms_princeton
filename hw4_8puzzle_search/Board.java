@@ -1,5 +1,6 @@
 
 import java.util.Stack;
+import java.lang.Math;
 
 import edu.princeton.cs.algs4.StdOut;
 
@@ -38,28 +39,51 @@ public class Board {
                     // StdOut.println("mBlocks[" + i + "][" + j + "]: " + mBlocks[i][j]); 
             }
         }
+        // TODO - need to add in moves up till this point
         return count;
     }
 
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
-        return 0;
+        int dim = dimension();
+        int count = 0;
+
+        for (int i=0; i < dim; i++) {
+            for (int j=0; j < dim; j++) {
+                int currentTile = mBlocks[i][j];
+                int goalTile = dim * i + 1 + j;
+                if (currentTile == 0) {
+                    // SKIP - DO NOTHING
+                }
+                else if (currentTile == goalTile) {
+                    // SKIP - DO NOTHING
+                } else {
+                    int i_goal = goalTile / dim;
+                    int j_goal = goalTile % dim;
+                    int di = Math.abs(i_goal-i);
+                    int dj = Math.abs(j_goal-j);
+                    count = count + di + dj;
+                }
+            }
+        }
+
+        // TODO - need to add in moves up till this point
+        return count;
     }
 
     // is this board the goal board?
     public boolean isGoal() {
+        int dim = dimension();
 
-        for (int i = 0; i < mBlocks.length; i++) {
+
+        for (int i = 0; i < dim; i++) {
             // StdOut.println("Row " + i);
-            for (int j = 0; j < mBlocks[0].length; j++) {
-                // if (i != mBlocks.length-1 || j != mBlocks[0].length-1) {
-                    if (mBlocks[i][j] == mBlocks.length*i+1+j) {
-                        // StdOut.println("Block in Goal position");
-                    } else {
-                        return false;
-                    }
-                    // StdOut.println("mBlocks[" + i + "][" + j + "]: " + mBlocks[i][j]);
-                // }
+            for (int j = 0; j < dim; j++) {
+                int goalTile = dim * i + 1 + j;
+                if (mBlocks[i][j] == goalTile) {
+                } else {
+                    return false;
+                }
             }
         }
         return true;
@@ -77,7 +101,6 @@ public class Board {
         if (y.getClass() != this.getClass()) return false;
         Board that = (Board) y;
         // check that dimensions are equal
-        StdOut.println("testing..." + that.mBlocks[0][0]);
 
         if (this.dimension() == that.dimension()) {
             int n = dimension();
@@ -103,11 +126,11 @@ public class Board {
     // string representation of this board (in the output format specified below)
     public String toString() {
         StringBuilder s = new StringBuilder();
-        int n = dimension();
-        StdOut.println("dimension: " + n);
-        s.append(n + "\n");
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        int dim = dimension();
+        StdOut.println("dimension: " + dim);
+        s.append(dim + "\n");
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
                 s.append(String.format("%2d ", mBlocks[i][j]));
             }
             s.append("\n");
@@ -136,22 +159,31 @@ public class Board {
 
         Board board1 = new Board(matrix);
         String board1String = board1.toString();
-        StdOut.println("Board 1 toString()" + board1String);
+        StdOut.println("Board 1 toString() " + board1String);
         int hamming1 = board1.hamming();
+        int manhattan1 = board1.manhattan();
         StdOut.println("Hamming board1: " + hamming1);
+        StdOut.println("Manhattan board1: " + manhattan1);
         Board board2 = new Board(matrix2);
         String board2String = board2.toString();
-        StdOut.println("Board 2 toString()" + board2String);
+        StdOut.println("Board 2 toString() " + board2String);
         int hamming2 = board2.hamming();
+        int manhattan2 = board2.manhattan();
+
         StdOut.println("Hamming board2: " + hamming2);
+        StdOut.println("Manhattan board2: " + manhattan2);
+
         boolean boardsEqual = board1.equals(board2);
         boolean goalReached = board1.isGoal();
 
         Board board3 = new Board(matrix3);
         String board3String = board3.toString();
-        StdOut.println("Board 3 toString()" + board3String);
+        StdOut.println("Board 3 toString() " + board3String);
         int hamming3 = board3.hamming();
+        int manhattan3 = board3.manhattan();
         StdOut.println("Hamming board3: " + hamming3);
+        StdOut.println("Manhattan board3: " + manhattan3);
+
         boolean boardsEqual2 = board2.equals(board3);
         StdOut.println("Are the boards equal 2x2 vs 3x3?: " + boardsEqual2);
         // StdOut.println("Board Goal Reached: " + goalReached);
