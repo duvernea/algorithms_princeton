@@ -23,7 +23,22 @@ public class Board {
 
     // number of blocks out of place    
     public int hamming() {
-        return 0;
+        int dim = dimension();
+        int count = 0;
+        for (int i = 0; i < dim; i++) {
+        // StdOut.println("Row " + i);
+            for (int j = 0; j < dim; j++) {
+                if (i != dim - 1 || j != dim - 1) {
+                    if (mBlocks[i][j] == dim * i + 1 + j) {
+                        // StdOut.println("Block in Goal position");
+                    } else {
+                        count++;
+                    }
+                }
+                    // StdOut.println("mBlocks[" + i + "][" + j + "]: " + mBlocks[i][j]); 
+            }
+        }
+        return count;
     }
 
     // sum of Manhattan distances between blocks and goal
@@ -39,11 +54,11 @@ public class Board {
             for (int j = 0; j < mBlocks[0].length; j++) {
                 // if (i != mBlocks.length-1 || j != mBlocks[0].length-1) {
                     if (mBlocks[i][j] == mBlocks.length*i+1+j) {
-                        StdOut.println("Block in Goal position");
+                        // StdOut.println("Block in Goal position");
                     } else {
                         return false;
                     }
-                    StdOut.println("mBlocks[" + i + "][" + j + "]: " + mBlocks[i][j]);
+                    // StdOut.println("mBlocks[" + i + "][" + j + "]: " + mBlocks[i][j]);
                 // }
             }
         }
@@ -110,27 +125,33 @@ public class Board {
             {7,8, 0}, 
         };
         int [][] matrix2 = new int[][]{
-            {1,2,3},
+            {3,2,1},
             {4,5,6},
             {7,8, 0}, 
         };
         int [][] matrix3 = new int[][]{
             {1,2},
-            {3,0} 
+            {0,3} 
         };
 
-        Board board = new Board(matrix);
-        String board1String = board.toString();
+        Board board1 = new Board(matrix);
+        String board1String = board1.toString();
         StdOut.println("Board 1 toString()" + board1String);
+        int hamming1 = board1.hamming();
+        StdOut.println("Hamming board1: " + hamming1);
         Board board2 = new Board(matrix2);
         String board2String = board2.toString();
         StdOut.println("Board 2 toString()" + board2String);
-        boolean boardsEqual = board.equals(board2);
-        boolean goalReached = board.isGoal();
+        int hamming2 = board2.hamming();
+        StdOut.println("Hamming board2: " + hamming2);
+        boolean boardsEqual = board1.equals(board2);
+        boolean goalReached = board1.isGoal();
 
         Board board3 = new Board(matrix3);
         String board3String = board3.toString();
         StdOut.println("Board 3 toString()" + board3String);
+        int hamming3 = board3.hamming();
+        StdOut.println("Hamming board3: " + hamming3);
         boolean boardsEqual2 = board2.equals(board3);
         StdOut.println("Are the boards equal 2x2 vs 3x3?: " + boardsEqual2);
         // StdOut.println("Board Goal Reached: " + goalReached);
