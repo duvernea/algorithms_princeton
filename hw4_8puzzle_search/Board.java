@@ -1,5 +1,6 @@
 
 import java.util.Stack;
+import java.util.Arrays;
 import java.lang.Math;
 
 import edu.princeton.cs.algs4.StdOut;
@@ -29,8 +30,9 @@ public class Board {
         for (int i = 0; i < dim; i++) {
         // StdOut.println("Row " + i);
             for (int j = 0; j < dim; j++) {
+                int goalTile = dim * i + 1 + j;
                 if (i != dim - 1 || j != dim - 1) {
-                    if (mBlocks[i][j] == dim * i + 1 + j) {
+                    if (mBlocks[i][j] == goalTile) {
                         // StdOut.println("Block in Goal position");
                     } else {
                         count++;
@@ -91,7 +93,32 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-        return this;
+        int dim = dimension();
+        int i_empty = 0;
+        int j_empty = 0;
+        int[][] blocks = new int[dim][dim];
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                if (mBlocks[i][j] == 0) {
+                    i_empty = i;
+                    j_empty = j;
+                }
+                blocks[i][j] = mBlocks[i][j];
+            }
+        }
+        // exchange pair of blocks
+        if (i_empty == 0) {
+            // empty block in 1st row, swap in 2nd row
+            int temp = blocks[1][1];
+            blocks[1][1] = blocks[1][0];
+            blocks[1][0] = temp; 
+        } else {
+            // empty block not in 1st row, swap in 1st row
+            int temp = blocks[0][1];
+            blocks[0][1] = blocks[0][0];
+            blocks[0][0] = temp; 
+        }
+        return new Board(blocks);
     }
 
     // does this board equal y?
@@ -153,8 +180,8 @@ public class Board {
             {7,8, 0}, 
         };
         int [][] matrix3 = new int[][]{
-            {1,2},
-            {0,3} 
+            {0,2},
+            {1,3} 
         };
 
         Board board1 = new Board(matrix);
@@ -164,6 +191,9 @@ public class Board {
         int manhattan1 = board1.manhattan();
         StdOut.println("Hamming board1: " + hamming1);
         StdOut.println("Manhattan board1: " + manhattan1);
+        Board twin1 = board1.twin();
+        StdOut.println("Board 1 twin toString() " + twin1);
+
         Board board2 = new Board(matrix2);
         String board2String = board2.toString();
         StdOut.println("Board 2 toString() " + board2String);
@@ -172,6 +202,9 @@ public class Board {
 
         StdOut.println("Hamming board2: " + hamming2);
         StdOut.println("Manhattan board2: " + manhattan2);
+
+        Board twin2 = board2.twin();
+        StdOut.println("Board 2 twin toString() " + twin2);
 
         boolean boardsEqual = board1.equals(board2);
         boolean goalReached = board1.isGoal();
@@ -183,6 +216,9 @@ public class Board {
         int manhattan3 = board3.manhattan();
         StdOut.println("Hamming board3: " + hamming3);
         StdOut.println("Manhattan board3: " + manhattan3);
+
+        Board twin3 = board3.twin();
+        StdOut.println("Board 3 twin toString() " + twin3);
 
         boolean boardsEqual2 = board2.equals(board3);
         StdOut.println("Are the boards equal 2x2 vs 3x3?: " + boardsEqual2);
