@@ -104,7 +104,6 @@ public class Board {
 
 
         for (int i = 0; i < dim; i++) {
-            // StdOut.println("Row " + i);
             for (int j = 0; j < dim; j++) {
                 int goalTile = dim * i + 1 + j;
                 if (mBlocks[i][j] == goalTile) {
@@ -119,18 +118,10 @@ public class Board {
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
         int dim = dimension();
-        // int i_empty = 0;
-        // int j_empty = 0;
+
         int[][] blocks = new int[dim][dim];
-        for (int i = 0; i < dim; i++) {
-            for (int j = 0; j < dim; j++) {
-                // if (mBlocks[i][j] == 0) {
-                //     i_empty = i;
-                //     j_empty = j;
-                // }
-                blocks[i][j] = mBlocks[i][j];
-            }
-        }
+        blocks = copyTiles();
+
         // exchange pair of blocks
         if (mEmptyRow == 0) {
             // empty block in 1st row, swap in 2nd row
@@ -173,19 +164,72 @@ public class Board {
     public Iterable<Board> neighbors() {
         int dim = dimension();
         Stack<Board> neighbors = new Stack<Board>();
+        int[][] copyTiles = copyTiles();
+
         // 3 options for location of empty square
+
         // 1. Square is in the corner -> Has 2 neighbors
         if (mEmptyRow == 0 && mEmptyCol == 0) {
+
             StdOut.println("Empty in the upper left corner");
-            // Has 2 neighbs
+            // swap
+            int temp = copyTiles[0][1];
+            int temp2 = copyTiles[1][0];
+
+            copyTiles[0][1] = 0;
+            copyTiles[0][0] = temp;
+            Board a = new Board(copyTiles);
+            neighbors.add(a);
+            copyTiles[1][0] = 0;
+            copyTiles[0][0] = temp2;
+            copyTiles[0][1] = temp;
+            Board b = new Board(copyTiles);
+            neighbors.add(b);
+
         } else if (mEmptyRow == 0 && mEmptyCol == dim - 1) {
             StdOut.println("Empty in the upper right corner");
-            // Has 2 neighbs
+            int temp = copyTiles[0][dim - 2];
+            int temp2 = copyTiles[1][dim - 1];
+
+            copyTiles[0][dim - 2] = 0;
+            copyTiles[0][dim - 1] = temp;
+            Board a = new Board(copyTiles);
+            neighbors.add(a);
+            copyTiles[1][dim - 1] = 0;
+            copyTiles[0][dim - 1] = temp2;
+            copyTiles[0][dim - 2] = temp;
+            Board b = new Board(copyTiles);
+            neighbors.add(b);
+
         } else if (mEmptyRow == dim - 1 && mEmptyCol == 0) {
             StdOut.println("Empty in the lower left corner");
-            // Has 2 neighbs
+            int temp = copyTiles[dim - 1][1];
+            int temp2 = copyTiles[dim - 2][0];
+
+            copyTiles[dim - 1][1] = 0;
+            copyTiles[dim - 1][0] = temp;
+            Board a = new Board(copyTiles);
+            neighbors.add(a);
+            copyTiles[dim - 2][0] = 0;
+            copyTiles[dim - 1][0] = temp2;
+            copyTiles[dim - 1][1] = temp;
+            Board b = new Board(copyTiles);
+            neighbors.add(b);
+
         } else if (mEmptyRow == dim - 1 && mEmptyCol == dim - 1) {
             StdOut.println("Empty in the lower right corner");
+            int temp = copyTiles[dim - 1][dim - 2];
+            int temp2 = copyTiles[dim - 2][dim - 1];
+
+            copyTiles[dim - 1][dim - 2] = 0;
+            copyTiles[dim - 1][dim - 1] = temp;
+            Board a = new Board(copyTiles);
+            neighbors.add(a);
+            copyTiles[dim - 2][dim - 1] = 0;
+            copyTiles[dim - 1][dim - 1] = temp2;
+            copyTiles[dim - 1][dim - 2] = temp;
+            Board b = new Board(copyTiles);
+            neighbors.add(b);
             // Has 2 neighbs
         } else if (mEmptyRow == 0 || mEmptyRow == dim - 1 ) {
             StdOut.println("Empty in the first or last row, but not corner");
@@ -198,9 +242,20 @@ public class Board {
             // Has 4 neighbs
         }
         // TEMP
-        neighbors.add(this);
+        // neighbors.add(this);
 
         return neighbors;
+    }
+    private int[][] copyTiles() {
+        int dim = dimension();
+        int[][] neighborTiles = new int[dim][dim];
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                neighborTiles[i][j] = mBlocks[i][j];
+            }
+        }
+
+        return neighborTiles;
     }
 
     // string representation of this board (in the output format specified below)
@@ -223,9 +278,9 @@ public class Board {
         StdOut.println("main run...");
         
         int [][] matrix = new int[][]{
-            {4,1,2},
-            {7,0,6},
-            {8,5, 3}, 
+            {2,1,8},
+            {7,4,6},
+            {3,5, 0}, 
         };
         int [][] matrix2 = new int[][]{
             {3,2,1},
@@ -237,6 +292,7 @@ public class Board {
             {1,3} 
         };
 
+        StdOut.println("***************** BOARD 1 *************");
         Board board1 = new Board(matrix);
         String board1String = board1.toString();
         StdOut.println("Board 1 toString() " + board1String);
@@ -247,12 +303,15 @@ public class Board {
         Board twin1 = board1.twin();
         StdOut.println("Board 1 twin toString() " + twin1);
 
+
         Iterable<Board> neighbs1 = board1.neighbors();
         Iterator<Board> iterator = neighbs1.iterator();
         while (iterator.hasNext()) {
             Board board = iterator.next();
             StdOut.println("Board Neighbor Iterator " + board);
         }
+
+        StdOut.println("***************** BOARD 2 *************");
 
         Board board2 = new Board(matrix2);
         String board2String = board2.toString();
