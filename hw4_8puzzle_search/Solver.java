@@ -1,8 +1,11 @@
 import java.util.Stack;
+import java.lang.Iterable;
+import java.util.Iterator;
 
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
+
 
 public class Solver {
 
@@ -22,10 +25,18 @@ public class Solver {
 	// find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
 
-    	MinPQ<SearchNode> queue = new MinPQ<SearchNode>();
+    	MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
     	SearchNode initialNode = new SearchNode(initial);
-    	queue.insert(initialNode);
-    	StdOut.println("Size of priority queue initial: " + queue.size());
+    	pq.insert(initialNode);
+    	StdOut.println("Size of priority queue initial: " + pq.size());
+
+    	SearchNode min = pq.delMin();
+    	Iterable<Board> neighbs1 = min.board.neighbors();
+        Iterator<Board> iterator = neighbs1.iterator();
+        while (iterator.hasNext()) {
+            Board board = iterator.next();
+            StdOut.println("Board Neighbor Iterator " + board);
+        }
 
     }
 
