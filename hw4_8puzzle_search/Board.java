@@ -66,7 +66,6 @@ public class Board {
                     // StdOut.println("mBlocks[" + i + "][" + j + "]: " + mBlocks[i][j]); 
             }
         }
-        // TODO - need to add in moves up till this point
         return count;
     }
 
@@ -93,8 +92,6 @@ public class Board {
                 }
             }
         }
-
-        // TODO - need to add in moves up till this point
         return count;
     }
 
@@ -230,13 +227,92 @@ public class Board {
             copyTiles[dim - 1][dim - 2] = temp;
             Board b = new Board(copyTiles);
             neighbors.add(b);
-            // Has 2 neighbs
         } else if (mEmptyRow == 0 || mEmptyRow == dim - 1 ) {
             StdOut.println("Empty in the first or last row, but not corner");
-            // Has 3 neighbs
+            if (mEmptyRow == 0) {
+                int left = copyTiles[0][mEmptyCol - 1];
+                int right = copyTiles[0][mEmptyCol + 1];
+                int down = copyTiles[1][mEmptyCol];
+
+                copyTiles[0][mEmptyCol] = left;
+                copyTiles[0][mEmptyCol - 1] = 0;
+                Board a = new Board(copyTiles);
+                neighbors.add(a);
+                copyTiles[0][mEmptyCol + 1] = 0;
+                copyTiles[0][mEmptyCol] = right;
+                copyTiles[0][mEmptyCol - 1] = left;
+                Board b = new Board(copyTiles);
+                neighbors.add(b);
+                copyTiles[0][mEmptyCol - 1] = left;
+                copyTiles[0][mEmptyCol + 1] = right;
+                copyTiles[0][mEmptyCol] = down;
+                copyTiles[1][mEmptyCol] = 0;
+                Board c = new Board(copyTiles);
+                neighbors.add(c);
+            }
+            if (mEmptyRow == dim - 1) {
+                int left = copyTiles[dim - 1][mEmptyCol - 1];
+                int right = copyTiles[dim - 1][mEmptyCol + 1];
+                int up = copyTiles[dim - 2][mEmptyCol - 1];
+
+                copyTiles[dim - 1][mEmptyCol] = left;
+                copyTiles[dim - 1][mEmptyCol - 1] = 0;
+                Board a = new Board(copyTiles);
+                neighbors.add(a);
+                copyTiles[dim - 1][mEmptyCol + 1] = 0;
+                copyTiles[dim - 1][mEmptyCol] = right;
+                copyTiles[dim - 1][mEmptyCol - 1] = left;
+                Board b = new Board(copyTiles);
+                neighbors.add(b);
+                copyTiles[dim - 1][mEmptyCol - 1] = left;
+                copyTiles[dim - 1][mEmptyCol + 1] = right;
+                copyTiles[dim - 1][mEmptyCol] = up;
+                copyTiles[dim - 2][mEmptyCol] = 0;
+                Board c = new Board(copyTiles);
+                neighbors.add(c);
+            }
         } else if (mEmptyCol == 0 || mEmptyCol == dim - 1 ) {
             StdOut.println("Empty in the first or last col, but not corner");
-            // Has 3 neighbs
+            if (mEmptyCol == 0) {
+                int up = copyTiles[mEmptyRow - 1][0];
+                int down = copyTiles[mEmptyRow + 1][0];
+                int right = copyTiles[mEmptyRow][1];
+
+                copyTiles[mEmptyRow][0] = up;
+                copyTiles[mEmptyRow - 1][0] = 0;
+                Board a = new Board(copyTiles);
+                neighbors.add(a);
+                copyTiles[mEmptyRow + 1][0] = 0;
+                copyTiles[mEmptyRow][0] = down;
+                copyTiles[mEmptyRow - 1][0] = up;
+                Board b = new Board(copyTiles);
+                neighbors.add(b);
+                copyTiles[mEmptyRow + 1][0] = down;
+                copyTiles[mEmptyRow][0] = right;
+                copyTiles[mEmptyRow][1] = 0;
+                Board c = new Board(copyTiles);
+                neighbors.add(c);
+            } 
+            if (mEmptyCol == dim - 1) {
+                int up = copyTiles[mEmptyRow - 1][dim - 1];
+                int down = copyTiles[mEmptyRow + 1][dim - 1];
+                int left = copyTiles[mEmptyRow][dim - 2];
+
+                copyTiles[mEmptyRow][dim - 1] = up;
+                copyTiles[mEmptyRow - 1][dim - 1] = 0;
+                Board a = new Board(copyTiles);
+                neighbors.add(a);
+                copyTiles[mEmptyRow + 1][dim - 1] = 0;
+                copyTiles[mEmptyRow][dim - 1] = down;
+                copyTiles[mEmptyRow - 1][dim - 1] = up;
+                Board b = new Board(copyTiles);
+                neighbors.add(b);
+                copyTiles[mEmptyRow + 1][dim - 1] = down;
+                copyTiles[mEmptyRow][dim - 1] = left;
+                copyTiles[mEmptyRow][dim - 2] = 0;
+                Board c = new Board(copyTiles);
+                neighbors.add(c);
+            }
         } else {
             StdOut.println("Empty not along a wall");
             // Has 4 neighbs
@@ -278,9 +354,9 @@ public class Board {
         StdOut.println("main run...");
         
         int [][] matrix = new int[][]{
-            {2,1,8},
-            {7,4,6},
-            {3,5, 0}, 
+            {2,7,8},
+            {6,4,0},
+            {3,5,1}, 
         };
         int [][] matrix2 = new int[][]{
             {3,2,1},
