@@ -315,11 +315,35 @@ public class Board {
             }
         } else {
             StdOut.println("Empty not along a wall");
-            // Has 4 neighbs
-        }
-        // TEMP
-        // neighbors.add(this);
+            int up = copyTiles[mEmptyRow - 1][mEmptyCol];
+            int down = copyTiles[mEmptyRow + 1][mEmptyCol];
+            int left = copyTiles[mEmptyRow][mEmptyCol - 1];
+            int right = copyTiles[mEmptyRow][mEmptyCol + 1];
 
+            // Create left neighbor
+            copyTiles[mEmptyRow][mEmptyCol - 1] = 0;
+            copyTiles[mEmptyRow][mEmptyCol] = left;
+            Board a = new Board(copyTiles);
+            neighbors.add(a);
+            // Create right neighbor
+            copyTiles[mEmptyRow][mEmptyCol - 1] = left;
+            copyTiles[mEmptyRow][mEmptyCol + 1] = 0;
+            copyTiles[mEmptyRow][mEmptyCol] = right;
+            Board b = new Board(copyTiles);
+            neighbors.add(b);
+            // Create up neighbor
+            copyTiles[mEmptyRow][mEmptyCol + 1] = right;
+            copyTiles[mEmptyRow - 1][mEmptyCol] = 0;
+            copyTiles[mEmptyRow][mEmptyCol] = up;
+            Board c = new Board(copyTiles);
+            neighbors.add(c);
+            // Create down neighbor
+            copyTiles[mEmptyRow - 1][mEmptyCol] = up;
+            copyTiles[mEmptyRow + 1][mEmptyCol] = 0;
+            copyTiles[mEmptyRow][mEmptyCol] = down;
+            Board d = new Board(copyTiles);
+            neighbors.add(d);
+        }
         return neighbors;
     }
     private int[][] copyTiles() {
@@ -355,7 +379,7 @@ public class Board {
         
         int [][] matrix = new int[][]{
             {2,7,8},
-            {6,4,0},
+            {6,0,4},
             {3,5,1}, 
         };
         int [][] matrix2 = new int[][]{
