@@ -9,6 +9,9 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Solver {
 
+	private int mSolutionMoves;
+	private Stack<Board> mSolutionBoards;
+
 	private class SearchNode implements Comparable<SearchNode> {
     	private Board board;
     	private int numMoves;
@@ -37,6 +40,7 @@ public class Solver {
 
 	// find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
+    	mSolutionBoards = new Stack<Board>();
 
     	int moves = 0;
 
@@ -61,6 +65,7 @@ public class Solver {
 
        		node = pq.delMin();
        		Board board = node.board;
+       		mSolutionBoards.push(board);
        		if (board.isGoal()) {
        			StdOut.println("GOAL BOARD REACHED");
        			StdOut.println("# of moves = " + node.numMoves);
@@ -86,6 +91,8 @@ public class Solver {
 			StdOut.println("GOAL BOARD REACHED");
 			StdOut.println("# of moves = " + node.numMoves);
 		}
+		mSolutionMoves = node.numMoves;
+
 
         // MOVE # 1
 
@@ -125,13 +132,13 @@ public class Solver {
 
     // min number of moves to solve initial board; -1 if unsolvable
     public int moves() {
-    	return 0;
+    	return mSolutionMoves;
     }
 
 	// sequence of boards in a shortest solution; null if unsolvable    
     public Iterable<Board> solution() {
     	// TEMP, so class compiles
-    	return new Stack<Board>();
+    	return mSolutionBoards;
     }
 
 	// solve a slider puzzle (given below)    
@@ -150,5 +157,9 @@ public class Solver {
 
 		// solve the puzzle
 		Solver solver = new Solver(initial);
+		StdOut.println("# of moves for solution: " + solver.moves());
+		for (Board b : solver.mSolutionBoards) {
+			StdOut.println(b.toString());
+		}
     }
 }
