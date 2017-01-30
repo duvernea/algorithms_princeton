@@ -75,6 +75,7 @@ public class Board {
         int count = 0;
 
         for (int i=0; i < dim; i++) {
+
             for (int j=0; j < dim; j++) {
                 int currentTile = mBlocks[i][j];
                 int goalTile = dim * i + 1 + j;
@@ -82,13 +83,20 @@ public class Board {
                     // SKIP - DO NOTHING
                 }
                 else if (currentTile == goalTile) {
+                    // StdOut.println("currentTile == goalTile == " + currentTile);
                     // SKIP - DO NOTHING
                 } else {
-                    int i_goal = goalTile / dim;
-                    int j_goal = goalTile % dim;
+                    // StdOut.println("goalTile not equal to current tile for " + currentTile);
+                    int i_goal = (currentTile - 1) / dim;
+                    int j_goal = (currentTile - 1) % dim;
+                    // StdOut.println("goalTile:i" + i_goal);
+                    // StdOut.println("goalTile j: " + j_goal);
                     int di = Math.abs(i_goal-i);
                     int dj = Math.abs(j_goal-j);
+                    // StdOut.println("di: " + di);
+                    // StdOut.println("dj: " + dj);
                     count = count + di + dj;
+                    // StdOut.println("For item: " + mBlocks[i][j] + " add " + count);
                 }
             }
         }
@@ -168,7 +176,7 @@ public class Board {
         // 1. Square is in the corner -> Has 2 neighbors
         if (mEmptyRow == 0 && mEmptyCol == 0) {
 
-            StdOut.println("Empty in the upper left corner");
+            // StdOut.println("Empty in the upper left corner");
             // swap
             int temp = copyTiles[0][1];
             int temp2 = copyTiles[1][0];
@@ -184,7 +192,7 @@ public class Board {
             neighbors.add(b);
 
         } else if (mEmptyRow == 0 && mEmptyCol == dim - 1) {
-            StdOut.println("Empty in the upper right corner");
+            // StdOut.println("Empty in the upper right corner");
             int temp = copyTiles[0][dim - 2];
             int temp2 = copyTiles[1][dim - 1];
 
@@ -199,7 +207,7 @@ public class Board {
             neighbors.add(b);
 
         } else if (mEmptyRow == dim - 1 && mEmptyCol == 0) {
-            StdOut.println("Empty in the lower left corner");
+            // StdOut.println("Empty in the lower left corner");
             int temp = copyTiles[dim - 1][1];
             int temp2 = copyTiles[dim - 2][0];
 
@@ -214,7 +222,7 @@ public class Board {
             neighbors.add(b);
 
         } else if (mEmptyRow == dim - 1 && mEmptyCol == dim - 1) {
-            StdOut.println("Empty in the lower right corner");
+            // StdOut.println("Empty in the lower right corner");
             int temp = copyTiles[dim - 1][dim - 2];
             int temp2 = copyTiles[dim - 2][dim - 1];
 
@@ -228,7 +236,7 @@ public class Board {
             Board b = new Board(copyTiles);
             neighbors.add(b);
         } else if (mEmptyRow == 0 || mEmptyRow == dim - 1 ) {
-            StdOut.println("Empty in the first or last row, but not corner");
+            // StdOut.println("Empty in the first or last row, but not corner");
             if (mEmptyRow == 0) {
                 int left = copyTiles[0][mEmptyCol - 1];
                 int right = copyTiles[0][mEmptyCol + 1];
@@ -272,7 +280,7 @@ public class Board {
                 neighbors.add(c);
             }
         } else if (mEmptyCol == 0 || mEmptyCol == dim - 1 ) {
-            StdOut.println("Empty in the first or last col, but not corner");
+            // StdOut.println("Empty in the first or last col, but not corner");
             if (mEmptyCol == 0) {
                 int up = copyTiles[mEmptyRow - 1][0];
                 int down = copyTiles[mEmptyRow + 1][0];
@@ -314,7 +322,7 @@ public class Board {
                 neighbors.add(c);
             }
         } else {
-            StdOut.println("Empty not along a wall");
+            // StdOut.println("Empty not along a wall");
             int up = copyTiles[mEmptyRow - 1][mEmptyCol];
             int down = copyTiles[mEmptyRow + 1][mEmptyCol];
             int left = copyTiles[mEmptyRow][mEmptyCol - 1];
@@ -362,7 +370,7 @@ public class Board {
     public String toString() {
         StringBuilder s = new StringBuilder();
         int dim = dimension();
-        StdOut.println("dimension: " + dim);
+        // StdOut.println("dimension: " + dim);
         s.append(dim + "\n");
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
