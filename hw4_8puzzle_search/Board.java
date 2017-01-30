@@ -110,8 +110,18 @@ public class Board {
 
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
-                int goalTile = dim * i + 1 + j;
+                int goalTile;
+                if (i == dim - 1 && j == dim - 1) {
+                    goalTile = 0;
+                } else {
+                    goalTile = dim * i + 1 + j;
+                }
+                
+                // StdOut.println("isGoal checking...");
+                // StdOut.println("mBlocks[i][j]: " + mBlocks[i][j]);
+                // StdOut.println("goalTile: " + goalTile);
                 if (mBlocks[i][j] == goalTile) {
+
                 } else {
                     return false;
                 }
