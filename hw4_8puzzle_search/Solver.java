@@ -10,9 +10,9 @@ import edu.princeton.cs.algs4.StdOut;
 public class Solver {
 
 	private class SearchNode implements Comparable<SearchNode> {
-    	Board board;
-    	int numMoves;
-    	SearchNode previous;
+    	private Board board;
+    	private int numMoves;
+    	private SearchNode previous;
 
     	private SearchNode(Board board, int moves, SearchNode previous) {
     		this.board = board;
@@ -30,6 +30,9 @@ public class Solver {
     			return +1;
     		}
     	}
+    	public int getMoves() {
+    		return numMoves;
+    	}
 	}
 
 	// find a solution to the initial board (using the A* algorithm)
@@ -38,22 +41,80 @@ public class Solver {
     	int moves = 0;
 
     	MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
-    	SearchNode initialNode = new SearchNode(initial, 0, null);
-    	pq.insert(initialNode);
-    	StdOut.println("Size of priority queue initial: " + pq.size());
+    	SearchNode node = new SearchNode(initial, 0, null);
+    	StdOut.println("Initial manhattan: " + node.board.manhattan());
+    	pq.insert(node);
+    	// StdOut.println("Size of priority queue initial: " + pq.size());
 
-    	SearchNode min = pq.delMin();
-    	Iterable<Board> neighbs1 = min.board.neighbors();
-        Iterator<Board> iterator = neighbs1.iterator();
-        moves++;
-        while (iterator.hasNext()) {
-            Board board = iterator.next();
-            SearchNode node = new SearchNode(board, moves, min);
-            pq.insert(node);
-            StdOut.println("Board Neighbor Iterator " + board);
-        }
 
-    	StdOut.println("Size of priority queue after 1 move: " + pq.size());
+    	//StdOut.println("Moves for 1st search node: " + moves);
+    	// Iterable<Board> neighbs1 = min.board.neighbors();
+        // Iterator<Board> iterator = neighbs1.iterator();
+       	// int numberOfMoves = 5;
+       	// SearchNode min;
+       	int i = 0;
+
+       	while (!pq.min().board.isGoal()) {
+       		i++;
+       	// for (int i = 0; i < numberOfMoves; i++){
+       		StdOut.println("\n------MOVE " + i + " ---------");
+
+       		node = pq.delMin();
+       		Board board = node.board;
+       		if (board.isGoal()) {
+       			StdOut.println("GOAL BOARD REACHED");
+       			StdOut.println("# of moves = " + node.numMoves);
+       		}
+       		StdOut.println ("Board Pulled from PQ: ");
+       		StdOut.println(board);
+    		moves = node.getMoves();
+       		moves++;
+       		StdOut.println("\n------NEIGHBOR BOARDS---------");
+	        for (Board b : node.board.neighbors()) {
+	            StdOut.println(b.toString());
+	            StdOut.println("manhattan: " + b.manhattan());
+	            int priority = b.manhattan() + moves;
+	            StdOut.println("Priority function: " + priority + "\n");
+	            SearchNode neighbor = new SearchNode(b, moves, node);
+	            pq.insert(neighbor);
+	        }
+
+       	}
+       	node = pq.delMin();
+       	// Board board = min.board;
+       	if (node.board.isGoal()) {
+			StdOut.println("GOAL BOARD REACHED");
+			StdOut.println("# of moves = " + node.numMoves);
+		}
+
+        // MOVE # 1
+
+
+    	// StdOut.println("Size of priority queue after 1 move: " + pq.size() + "\n");
+    	// // MOVE # 2
+    	// // What is the min in PQ?
+    	// SearchNode temp = pq.min();
+    	// Board tempBoard = temp.board;
+
+    	// // is this board the solution?
+    	// StdOut.println("Is board Goal?: " + tempBoard.isGoal());
+    	// Iterable<Board> neighbs2 = tempBoard.neighbors();
+    	// Iterator<Board> iterator2 = neighbs2.iterator();
+    	// StdOut.println("Move #2....");
+    	// StdOut.println("Selected min priority board: " + "\n" + tempBoard);
+    	// moves++;
+    	// for (Board b : neighbs2) {
+
+    	// 	StdOut.println(b.toString());
+     //        StdOut.println("manhattan: " + b.manhattan());
+     //        int priority = b.manhattan() + moves;
+     //        StdOut.println("Priority function: " + priority + "\n");
+     //        SearchNode node = new SearchNode(b, moves, min);
+     //        pq.insert(node);
+     //     }
+
+    	// StdOut.println("Min board after 2nd move...");
+    	// StdOut.println(pq.min().board.toString());
 
     }
 
