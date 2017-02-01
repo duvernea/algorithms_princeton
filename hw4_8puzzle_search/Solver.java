@@ -114,7 +114,11 @@
 	}
 	// sequence of boards in a shortest solution; null if unsolvable    
 	public Iterable<Board> solution() {
-	 return mSolutionBoards;
+		if (mSolution) {
+			return mSolutionBoards;
+		} else {
+			return null;
+		}
 	}
 	// solve a slider puzzle (given below)    
 	public static void main(String[] args) {
