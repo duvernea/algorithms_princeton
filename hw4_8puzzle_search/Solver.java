@@ -11,6 +11,7 @@ public class Solver {
 
 	private int mSolutionMoves;
 	private ArrayList<Board> mSolutionBoards;
+	private boolean mSolution;
 
 	private class SearchNode implements Comparable<SearchNode> {
     	private Board board;
@@ -40,91 +41,58 @@ public class Solver {
 
 	// find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
+
     	mSolutionBoards = new ArrayList<Board>();
+    	Board twinInitial = initial.twin();
 
     	int moves = 0;
+    	int movesTwin = 0;
 
     	MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
+    	MinPQ<SearchNode> pqTwin = new MinPQ<SearchNode>();
+
     	SearchNode node = new SearchNode(initial, 0, null);
-    	// StdOut.println("Initial manhattan: " + node.board.manhattan());
+    	SearchNode nodeTwin = new SearchNode(twinInitial, 0, null);
+    	
     	pq.insert(node);
-    	// StdOut.println("Size of priority queue initial: " + pq.size());
+    	pqTwin.insert(nodeTwin);
 
-
-    	//StdOut.println("Moves for 1st search node: " + moves);
-    	// Iterable<Board> neighbs1 = min.board.neighbors();
-        // Iterator<Board> iterator = neighbs1.iterator();
-       	// int numberOfMoves = 5;
-       	// SearchNode min;
-       	int i = 0;
-
-       	while (!pq.min().board.isGoal()) {
-       		i++;
-       	// for (int i = 0; i < numberOfMoves; i++){
-       		// StdOut.println("\n------MOVE " + i + " ---------");
+       	while (!pq.min().board.isGoal() && !pqTwin.min().board.isGoal() ) {
 
        		node = pq.delMin();
+       		nodeTwin = pqTwin.delMin();
        		Board board = node.board;
        		mSolutionBoards.add(board);
-       		if (board.isGoal()) {
-       			// StdOut.println("GOAL BOARD REACHED");
-       			// StdOut.println("# of moves = " + node.numMoves);
-       		}
-       		// StdOut.println ("Board Pulled from PQ: ");
-       		// StdOut.println(board);
+
     		moves = node.getMoves();
+    		movesTwin = nodeTwin.getMoves();
        		moves++;
-       		// StdOut.println("\n------NEIGHBOR BOARDS---------");
+       		movesTwin++;
 	        for (Board b : node.board.neighbors()) {
-	            // StdOut.println(b.toString());
-	            // StdOut.println("manhattan: " + b.manhattan());
 	            int priority = b.manhattan() + moves;
-	            // StdOut.println("Priority function: " + priority + "\n");
 	            SearchNode neighbor = new SearchNode(b, moves, node);
 	            pq.insert(neighbor);
 	        }
-
+	        for (Board b : nodeTwin.board.neighbors()) {
+	            int priority = b.manhattan() + movesTwin;
+	        	SearchNode neighbor = new SearchNode(b, movesTwin, nodeTwin);
+	        	pqTwin.insert(neighbor);
+	        }
        	}
-       	node = pq.delMin();
-		Board board = node.board;
-       	mSolutionBoards.add(board);
-		mSolutionMoves = node.numMoves;
-
-
-        // MOVE # 1
-
-
-    	// StdOut.println("Size of priority queue after 1 move: " + pq.size() + "\n");
-    	// // MOVE # 2
-    	// // What is the min in PQ?
-    	// SearchNode temp = pq.min();
-    	// Board tempBoard = temp.board;
-
-    	// // is this board the solution?
-    	// StdOut.println("Is board Goal?: " + tempBoard.isGoal());
-    	// Iterable<Board> neighbs2 = tempBoard.neighbors();
-    	// Iterator<Board> iterator2 = neighbs2.iterator();
-    	// StdOut.println("Move #2....");
-    	// StdOut.println("Selected min priority board: " + "\n" + tempBoard);
-    	// moves++;
-    	// for (Board b : neighbs2) {
-
-    	// 	StdOut.println(b.toString());
-     //        StdOut.println("manhattan: " + b.manhattan());
-     //        int priority = b.manhattan() + moves;
-     //        StdOut.println("Priority function: " + priority + "\n");
-     //        SearchNode node = new SearchNode(b, moves, min);
-     //        pq.insert(node);
-     //     }
-
-    	// StdOut.println("Min board after 2nd move...");
-    	// StdOut.println(pq.min().board.toString());
-
+       	if (pq.min().board.isGoal()) {
+	       	node = pq.delMin();
+			Board board = node.board;
+	       	mSolutionBoards.add(board);
+			mSolutionMoves = node.numMoves;
+			mSolution = true;
+		} else {
+			mSolution = false;
+		}
     }
 
 	// is the initial board solvable?    
     public boolean isSolvable() {
-    	return false;
+    	return mSolution;
     }
 
     // min number of moves to solve initial board; -1 if unsolvable
@@ -149,14 +117,16 @@ public class Solver {
 			for (int j = 0; j < n; j++)
 				blocks[i][j] = in.readInt();
 		Board initial = new Board(blocks);
-		// StdOut.println("Board read: " );
-		// StdOut.println(initial.toString());
 
 		// solve the puzzle
 		Solver solver = new Solver(initial);
-		StdOut.println("Minimum number of moves = " + solver.moves() + "\n");
-		for (Board b : solver.mSolutionBoards) {
-			StdOut.println(b.toString());
+		if (solver.isSolvable()) {
+			StdOut.println("Minimum number of moves = " + solver.moves() + "\n");
+			for (Board b : solver.mSolutionBoards) {
+				StdOut.println(b.toString());
+			}
+		} else {
+			StdOut.println("No soultion possible");
 		}
     }
 }
