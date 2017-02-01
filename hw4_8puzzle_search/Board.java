@@ -271,7 +271,7 @@ public class Board {
             if (mEmptyRow == dim - 1) {
                 int left = copyTiles[dim - 1][mEmptyCol - 1];
                 int right = copyTiles[dim - 1][mEmptyCol + 1];
-                int up = copyTiles[dim - 2][mEmptyCol - 1];
+                int up = copyTiles[dim - 2][mEmptyCol];
 
                 copyTiles[dim - 1][mEmptyCol] = left;
                 copyTiles[dim - 1][mEmptyCol - 1] = 0;
@@ -396,10 +396,11 @@ public class Board {
         StdOut.println("main run...");
         
         int [][] matrix = new int[][]{
-            {2,7,8},
-            {6,0,4},
-            {3,5,1}, 
+            {4,5,2},
+            {7,6,1},
+            {3,0,8}, 
         };
+
         int [][] matrix2 = new int[][]{
             {3,2,1},
             {4,5,6},
