@@ -6,7 +6,6 @@ import java.util.Stack;
 
 import org.junit.runner.JUnitCore;
 
-
 public class PointSET {
 
 	TreeSet<Point2D> treeSet;
@@ -14,7 +13,6 @@ public class PointSET {
 	// construct an empty set of points 
 	public PointSET() {
 		treeSet = new TreeSet<Point2D>();
-
 	}
 	// is the set empty? 
 	public boolean isEmpty() {
@@ -30,7 +28,6 @@ public class PointSET {
 		if (!treeSet.contains(p)) {
 			treeSet.add(p);
 		}
-
 	}
 	// does the set contain point p?
 	public boolean contains(Point2D p) {
@@ -41,7 +38,6 @@ public class PointSET {
 		for (Point2D point: treeSet) {
 			point.draw();
 		}
-
 	}
 	// all points that are inside the rectangle 
 	public Iterable<Point2D> range(RectHV rect) {
@@ -71,8 +67,6 @@ public class PointSET {
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
-
-	JUnitCore.main("TestPointSET");
-
+		JUnitCore.main("TestPointSET");
 	}
 }
