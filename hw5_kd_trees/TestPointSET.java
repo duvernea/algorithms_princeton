@@ -12,6 +12,8 @@ public class TestPointSET {
 	@Test
 	public void testCreateContainsPoints() {
 		PointSET pointSet = new PointSET();
+		assertTrue("New pointSET created, is empty", pointSet.isEmpty());
+
 		Point2D a = new Point2D(0, 0);
 		pointSet.insert(a);
 		Point2D b = new Point2D(.5, .5);
@@ -24,6 +26,9 @@ public class TestPointSET {
 		assertTrue("Inserted point a is not 'contained' in the pointSET", pointSet.contains(a));
 		assertTrue("Inserted point b is not 'contained' in the pointSET", pointSet.contains(b));
 		assertEquals("Set does not contain correct number of points = 2", pointSet.size(), 2);
+		assertTrue("pointSET created, is not empty", !pointSet.isEmpty());
+
+
 		// Try inserting the same point again
 		pointSet.insert(c);
 		assertEquals("Duplicate point added. Set does not contain correct number of points = 2", pointSet.size(), 2);

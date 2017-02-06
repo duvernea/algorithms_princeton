@@ -18,7 +18,7 @@ public class PointSET {
 	}
 	// is the set empty? 
 	public boolean isEmpty() {
-		return false;
+		return treeSet.isEmpty();
 	}
 	// number of points in the set 
 	public int size() {
@@ -38,14 +38,18 @@ public class PointSET {
 	}
 	// draw all points to standard draw 
 	public void draw() {
+		for (Point2D point: treeSet) {
+			point.draw();
+		}
 
 	}
 	// all points that are inside the rectangle 
 	public Iterable<Point2D> range(RectHV rect) {
+		Stack<Point2D> pointsInside = new Stack<Point2D>();
 		for (Point2D point : treeSet) {
 			StdOut.println(point);
 		}
-		return new Stack<Point2D>();
+		return pointsInside;
 	}
 	// a nearest neighbor in the set to point p; null if the set is empty 
 	public Point2D nearest(Point2D p) {
