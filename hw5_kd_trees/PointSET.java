@@ -3,11 +3,16 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import java.util.Stack;
 
+import org.junit.runner.JUnitCore;
+
 
 public class PointSET {
 
+	TreeSet<Point2D> treeSet;
+
 	// construct an empty set of points 
 	public PointSET() {
+		treeSet = new TreeSet<Point2D>();
 
 	}
 	// is the set empty? 
@@ -21,11 +26,12 @@ public class PointSET {
 
 	// add the point to the set (if it is not already in the set)
 	public void insert(Point2D p) {
+		treeSet.add(p);
 
 	}
 	// does the set contain point p?
 	public boolean contains(Point2D p) {
-		return false;
+		return treeSet.contains(p);
 	}
 	// draw all points to standard draw 
 	public void draw() {
@@ -41,6 +47,8 @@ public class PointSET {
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
+
+	JUnitCore.main("TestPointSET");
 
 	}
 }
