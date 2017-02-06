@@ -47,7 +47,9 @@ public class PointSET {
 	public Iterable<Point2D> range(RectHV rect) {
 		Stack<Point2D> pointsInside = new Stack<Point2D>();
 		for (Point2D point : treeSet) {
-			StdOut.println(point);
+			if (rect.contains(point)) {
+				pointsInside.push(point);
+			}
 		}
 		return pointsInside;
 	}
