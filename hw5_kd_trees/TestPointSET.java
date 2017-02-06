@@ -58,17 +58,32 @@ public class TestPointSET {
 		StdOut.println("Testing for range of points in rectangle...");
 		for (Point2D point : pointSet.range(rect)) {
 			numPoints++;
-			StdOut.print(point);
 			assertFalse("Rect should not contain point (0, 0)", point.equals(a));
 			assertFalse("Rect should not contain point (.7, 1)", point.equals(c));
-
 		}
 		assertEquals("2 points should be contained in the rectangle", numPoints, 2);
+	}
+	@Test
+	public void testNearestPoint() {
+		PointSET pointSet = new PointSET();
+		Point2D comparePoint = new Point2D(0.45, 0.4);
+		Point2D nearest = pointSet.nearest(comparePoint);
+		assertEquals("No points inserted yet, closest point should be null", nearest, null);
 
+		Point2D a = new Point2D(0, 0);
+		Point2D b = new Point2D(.5, .5);
+		Point2D c = new Point2D(.7, 1);
+		Point2D d = new Point2D(.3, .3);
+		pointSet.insert(a);
+		pointSet.insert(b);
+		pointSet.insert(c);
+		pointSet.insert(d);
 
-
+		nearest = pointSet.nearest(comparePoint);
+		assertEquals("Nearest point to " + comparePoint + " is not correct", nearest, b);
 
 
 
 	}
+
 }

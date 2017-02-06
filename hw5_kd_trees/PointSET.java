@@ -55,7 +55,19 @@ public class PointSET {
 	}
 	// a nearest neighbor in the set to point p; null if the set is empty 
 	public Point2D nearest(Point2D p) {
-		return new Point2D(0, 0);
+		if (isEmpty()) {
+			return null;
+		} else {
+			double minDistance = 2;
+			Point2D nearest = new Point2D(0, 0);
+			for (Point2D point : treeSet) {
+				if (p.distanceTo(point) < minDistance) {
+					nearest = point;
+					minDistance = p.distanceTo(point);
+				}
+			}
+			return nearest;
+		}
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
