@@ -5,13 +5,27 @@ import java.util.Stack;
 
 public class KdTree {
 
+	private Node root;
+
+	private class Node {
+		private Point2D point;
+		private RectHV rect;
+		private Node left;
+		private Node right;
+	}
+
 	// construct an empty set of points 
 	public KdTree() {
+		root = new Node();
 
 	}
 	// is the set empty? 
 	public boolean isEmpty() {
-		return false;
+		if (root.point == null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	// number of points in the set 
 	public int size() {
@@ -39,6 +53,10 @@ public class KdTree {
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
+
+		KdTree kdTree = new KdTree();
+		boolean empty = kdTree.isEmpty();
+		StdOut.println("kdTree created.  isEmpty?: " + empty);
 
 	}
 }
