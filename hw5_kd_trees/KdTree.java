@@ -2,12 +2,18 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdOut;
 import java.util.Stack;
+import java.util.Comparator;
 
 public class KdTree {
 
 	private Node root;
 
 	private class Node {
+
+		private Node(Point2D p) {
+			point = p;
+		}
+
 		private Point2D point;
 		private RectHV rect;
 		private Node left;
@@ -16,7 +22,7 @@ public class KdTree {
 
 	// construct an empty set of points 
 	public KdTree() {
-		root = new Node();
+		root = new Node(null);
 		root.point = null;
 		root.rect = null;
 		root.left = null;
@@ -51,21 +57,55 @@ public class KdTree {
 	}
 	// add the point to the set (if it is not already in the set)
 	public void insert(Point2D p) {
+		Comparator<Point2D> comparatorX = Point2D.X_ORDER;
 		// empty tree
 		if (root.point == null) {
 			root.point = p;
 			root.rect = new RectHV(0, 0, 1, 1);
 		} else {
-			// TEMP insert a temp node to the left
-			StdOut.println("Point 2: " + p);
-			Node node = new Node();
-			node.point = p;
-			root.left = node;
-			Node node2 = new Node();
-			node2.point = p;
-			node.left = node2;
+			insertNode(root, p, comparatorX);
 		}
+	}
+	private Node insertNode(Node node, Point2D p, Comparator<Point2D> pointCompare) {
+		Comparator<Point2D> flippedCompare;
+		if (pointCompare.equals(Point2D.X_ORDER)) {
+			StdOut.println("equals X_ORDER compartor");
+			flippedCompare = Point2D.Y_ORDER;
+		} else {
+			StdOut.println("equals Y_ORDER compartor");
+			flippedCompare = Point2D.X_ORDER;
+		}
+		// StdOut.println("insertNode recursive method called with point: " + p);
+		if (node == null) {
+			StdOut.println("node == null");
+			return new Node(p);
+		}
+		// TODO - not sure yet how to determine levels
+		// Comparator<Point2D> comparatorX = Point2D.X_ORDER;
+		// Comparator<Point2D> comparatorY = Point2D.Y_ORDER;
+		int compareX = pointCompare.compare(p, node.point);
+		int compareY = pointCompare.compare(p, node.point);
 
+		// StdOut.println("p: " + p);
+		// StdOut.println("node.point: " + node.point);
+
+		// StdOut.println("Compare by X: p, node.point = " + compareX);
+		// StdOut.println("Compare by Y: p, node.point = " + compareY);
+
+		// For now, just compare by X
+		if (compareX == 1) {
+			StdOut.println("node.right = ...." + p);
+			node.right = insertNode(node.right, p, flippedCompare);
+		} else if (compareX == -1) {
+			StdOut.println("node.left = ...." + p);
+
+			node.left = insertNode(node.left, p, flippedCompare);
+		} else {
+			StdOut.println("node.point set equal = ...." + p);
+
+			node.point = p;
+		}
+		return node;
 	}
 	// does the set contain point p? 
 	public boolean contains(Point2D p) {
@@ -102,5 +142,28 @@ public class KdTree {
 		kdTree.insert(p2);
 		count = kdTree.size();
 		StdOut.println("kdTree point 2 inserted.  getCount?: " + count);
+
+		Point2D p3 = new Point2D(.9, .9);
+		kdTree.insert(p3);
+		count = kdTree.size();
+		StdOut.println("kdTree point 3 inserted.  getCount?: " + count);
+
+		Point2D p4 = new Point2D(.7, .7	);
+		kdTree.insert(p4);
+		count = kdTree.size();
+		StdOut.println("kdTree point 4 inserted.  getCount?: " + count);
+
+		Point2D p5 = new Point2D(.6, .7	);
+		kdTree.insert(p5);
+		count = kdTree.size();
+		StdOut.println("kdTree point 5 inserted.  getCount?: " + count);
+
+		Point2D p6 = new Point2D(.6, .95	);
+		kdTree.insert(p6);
+		count = kdTree.size();
+		StdOut.println("kdTree point 6 inserted.  getCount?: " + count);
+
+
+
 	}
 }
