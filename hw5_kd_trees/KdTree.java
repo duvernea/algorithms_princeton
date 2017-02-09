@@ -4,6 +4,8 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.Stack;
 import java.util.Comparator;
 
+import org.junit.runner.JUnitCore;
+
 public class KdTree {
 
 	private Node root;
@@ -69,47 +71,47 @@ public class KdTree {
 	private Node insertNode(Node node, Point2D p, Comparator<Point2D> pointCompare) {
 		Comparator<Point2D> flippedCompare;
 		if (pointCompare.equals(Point2D.X_ORDER)) {
-			StdOut.println("equals X_ORDER compartor");
 			flippedCompare = Point2D.Y_ORDER;
 		} else {
-			StdOut.println("equals Y_ORDER compartor");
 			flippedCompare = Point2D.X_ORDER;
 		}
-		// StdOut.println("insertNode recursive method called with point: " + p);
 		if (node == null) {
-			StdOut.println("node == null");
 			return new Node(p);
 		}
-		// TODO - not sure yet how to determine levels
-		// Comparator<Point2D> comparatorX = Point2D.X_ORDER;
-		// Comparator<Point2D> comparatorY = Point2D.Y_ORDER;
-		int compareX = pointCompare.compare(p, node.point);
-		int compareY = pointCompare.compare(p, node.point);
+		int compare = pointCompare.compare(p, node.point);
 
-		// StdOut.println("p: " + p);
-		// StdOut.println("node.point: " + node.point);
-
-		// StdOut.println("Compare by X: p, node.point = " + compareX);
-		// StdOut.println("Compare by Y: p, node.point = " + compareY);
-
-		// For now, just compare by X
-		if (compareX == 1) {
-			StdOut.println("node.right = ...." + p);
+		if (compare == 1) {
 			node.right = insertNode(node.right, p, flippedCompare);
-		} else if (compareX == -1) {
-			StdOut.println("node.left = ...." + p);
-
+		} else if (compare == -1) {
 			node.left = insertNode(node.left, p, flippedCompare);
 		} else {
-			StdOut.println("node.point set equal = ...." + p);
-
 			node.point = p;
 		}
 		return node;
 	}
 	// does the set contain point p? 
 	public boolean contains(Point2D p) {
+		Comparator<Point2D> comparatorX = Point2D.X_ORDER;
+		boolean contains = false;
+		// empty tree
+		if (root.point == null) {
+			return false;
+		} else {
+			contains = containsNode(root, p, comparatorX);
+		}
+		return contains;
+	}
+	private boolean containsNode(Node node, Point2D point, Comparator<Point2D> pointCompare) {
+		Comparator<Point2D> flippedCompare;
+		if (pointCompare.equals(Point2D.X_ORDER)) {
+		 	StdOut.println("equals X_ORDER compartor");
+		 	flippedCompare = Point2D.Y_ORDER;
+		} else {
+		 	StdOut.println("equals Y_ORDER compartor");
+		 	flippedCompare = Point2D.X_ORDER;
+		}
 		return false;
+		// return true;
 	}
 	// draw all points to standard draw 
 	public void draw() {
@@ -125,45 +127,6 @@ public class KdTree {
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
-
-		KdTree kdTree = new KdTree();
-		boolean empty = kdTree.isEmpty();
-		StdOut.println("kdTree created.  isEmpty?: " + empty);
-		StdOut.println("kdTree created.  size()?: " + kdTree.size());
-		Point2D p1 = new Point2D(.5, .5);
-		kdTree.insert(p1);
-		empty = kdTree.isEmpty();
-		StdOut.println("kdTree p1 inserted.  isEmpty?: " + empty);
-
-		int count = kdTree.size();
-		StdOut.println("kdTree.  getCount?: " + count);
-
-		Point2D p2 = new Point2D(.25, .25);
-		kdTree.insert(p2);
-		count = kdTree.size();
-		StdOut.println("kdTree point 2 inserted.  getCount?: " + count);
-
-		Point2D p3 = new Point2D(.9, .9);
-		kdTree.insert(p3);
-		count = kdTree.size();
-		StdOut.println("kdTree point 3 inserted.  getCount?: " + count);
-
-		Point2D p4 = new Point2D(.7, .7	);
-		kdTree.insert(p4);
-		count = kdTree.size();
-		StdOut.println("kdTree point 4 inserted.  getCount?: " + count);
-
-		Point2D p5 = new Point2D(.6, .7	);
-		kdTree.insert(p5);
-		count = kdTree.size();
-		StdOut.println("kdTree point 5 inserted.  getCount?: " + count);
-
-		Point2D p6 = new Point2D(.6, .95	);
-		kdTree.insert(p6);
-		count = kdTree.size();
-		StdOut.println("kdTree point 6 inserted.  getCount?: " + count);
-
-
-
+		JUnitCore.main("TestKdTree");
 	}
 }
