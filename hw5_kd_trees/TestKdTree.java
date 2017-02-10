@@ -86,6 +86,7 @@ public class TestKdTree {
 		Point2D p7 = new Point2D(.61, .61);
 		assertFalse("Point " + p7 + " should not be found with contains()", kdTree.contains(p7));
 	}
+	@Test
 	public void testSearchClosest() {
 		KdTree kdTree = new KdTree();
 
@@ -107,9 +108,36 @@ public class TestKdTree {
 		Point2D p6 = new Point2D(.6, .95);
 		kdTree.insert(p6);
 
-		Point2D checkPoint = new Point2D(.61, .7);
+		Point2D checkPoint1 = new Point2D(.1, 0);
+		assertEquals("Nearest point to " + checkPoint1 + " incorrect.", kdTree.nearest(checkPoint1), p2);
 
-		Point2D nearest = kdTree.nearest(checkPoint);
-		assertEquals("Nearest point to " + checkPoint + " incorrect.", nearest, p5);
+		Point2D checkPoint2 = new Point2D(.25, .25);
+		assertEquals("Nearest point to " + checkPoint2 + " incorrect.", kdTree.nearest(checkPoint2), p2);
+
+		Point2D checkPoint3 = new Point2D(.25, .4);
+		assertEquals("Nearest point to " + checkPoint3 + " incorrect.", kdTree.nearest(checkPoint3), p2);
+
+		Point2D checkPoint4 = new Point2D(.49, .5);
+		assertEquals("Nearest point to " + checkPoint4 + " incorrect.", kdTree.nearest(checkPoint4), p1);
+
+		Point2D checkPoint5 = new Point2D(.51, .55);
+		assertEquals("Nearest point to " + checkPoint5 + " incorrect.", kdTree.nearest(checkPoint5), p1);
+
+		Point2D checkPoint6 = new Point2D(.59, .67);
+		assertEquals("Nearest point to " + checkPoint6 + " incorrect.", kdTree.nearest(checkPoint6), p5);
+
+		Point2D checkPoint7 = new Point2D(.66, .7);
+		assertEquals("Nearest point to " + checkPoint7 + " incorrect.", kdTree.nearest(checkPoint7), p4);
+
+		Point2D checkPoint8 = new Point2D(.55, .91);;
+		assertEquals("Nearest point to " + checkPoint8 + " incorrect.", kdTree.nearest(checkPoint8), p6);
+
+		Point2D checkPoint9 = new Point2D(.92, .85);;
+		assertEquals("Nearest point to " + checkPoint9 + " incorrect.", kdTree.nearest(checkPoint9), p3);
+
+		Point2D checkPoint10 = new Point2D(.4, .6);;
+		assertEquals("Nearest point to " + checkPoint10 + " incorrect.", kdTree.nearest(checkPoint10), p1);
+
+
 	}
 }

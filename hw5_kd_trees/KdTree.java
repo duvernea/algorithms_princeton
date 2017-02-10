@@ -82,7 +82,7 @@ public class KdTree {
 		if (node == null) {
 			Node nodeAdded = new Node(p);
 			nodeAdded.rect = rect;
-			StdOut.println("Point " + p + " created with rectHV " + rect);
+			// StdOut.println("Point " + p + " created with rectHV " + rect);
 			return nodeAdded;
 		}
 		int compare = pointCompare.compare(p, node.point);
@@ -181,6 +181,7 @@ public class KdTree {
 	}
 	// a nearest neighbor in the set to point p; null if the set is empty 
 	public Point2D nearest(Point2D p) {
+		// StdOut.println("Nearest point being calculated...");
 		Comparator<Point2D> comparatorX = Point2D.X_ORDER;
 		if (root.point == null) {
 			return null;
@@ -192,6 +193,7 @@ public class KdTree {
 		}
 	}
 	private Node searchNearest(Node node, Point2D p, Comparator<Point2D> pointCompare) {
+		StdOut.println("Point " + p + " searchNearest() recursive at " + node.point);
 		if (node == null) {
 			// parent was the closest
 			return node;
@@ -204,11 +206,11 @@ public class KdTree {
 		}
 		int compare = pointCompare.compare(p, node.point);
 		double distance = p.distanceTo(node.point);
-		StdOut.println("Distance from " + p + " to " + node.point + " = " + distance);
+		// StdOut.println("Distance from " + p + " to " + node.point + " = " + distance);
 		if (distance < championDistance) {
 			championDistance = distance;
 			championPoint = node.point;
-			StdOut.println("Champion point updated: " + championDistance + " " + championPoint);
+			// StdOut.println("Champion point updated: " + championDistance + " " + championPoint);
 		}
 
 		if (compare == 0) {
@@ -220,7 +222,8 @@ public class KdTree {
 			}
 			// true if current champion point is to the right/top of this point node
 			// if so, need to search the right/top side
-			boolean searchRight = (pointCompare.compare(championPoint, node.point) > -1);
+			boolean searchRight = (pointCompare.compare(championPoint, node.point) != -1);
+			// StdOut.println("championPoint: " + championPoint + " node.point: " + node.point + " searchright: " + searchRight);
 			if (searchRight) {
 				node = searchNearest(node.right, p, flippedCompare);
 			}
@@ -231,7 +234,9 @@ public class KdTree {
 			}
 			// true if current champion point is to the left/bottom of this point node
 			// if so, need to search the right/top side
-			boolean searchLeft = (pointCompare.compare(championPoint, node.point) < 1);
+			boolean searchLeft = (pointCompare.compare(championPoint, node.point) != 1);
+			// StdOut.println("championPoint: " + championPoint + " node.point: " + node.point + " searchleft: " + searchLeft);
+
 			if (searchLeft) {
 				node = searchNearest(node.left, p, flippedCompare);
 			}
