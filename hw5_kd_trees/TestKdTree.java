@@ -85,9 +85,31 @@ public class TestKdTree {
 
 		Point2D p7 = new Point2D(.61, .61);
 		assertFalse("Point " + p7 + " should not be found with contains()", kdTree.contains(p7));
+	}
+	public void testSearchClosest() {
+		KdTree kdTree = new KdTree();
 
+		Point2D p1 = new Point2D(.5, .5);
+		kdTree.insert(p1);
 
+		Point2D p2 = new Point2D(.25, .25);
+		kdTree.insert(p2);
 
+		Point2D p3 = new Point2D(.9, .9);
+		kdTree.insert(p3);
 
+		Point2D p4 = new Point2D(.7, .7	);
+		kdTree.insert(p4);
+
+		Point2D p5 = new Point2D(.6, .7	);
+		kdTree.insert(p5);
+
+		Point2D p6 = new Point2D(.6, .95);
+		kdTree.insert(p6);
+
+		Point2D checkPoint = new Point2D(.61, .7);
+
+		Point2D nearest = kdTree.nearest(checkPoint);
+		assertEquals("Nearest point to " + checkPoint + " incorrect.", nearest, p5);
 	}
 }
