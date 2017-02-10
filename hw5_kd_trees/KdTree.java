@@ -101,17 +101,28 @@ public class KdTree {
 		}
 		return contains;
 	}
-	private boolean containsNode(Node node, Point2D point, Comparator<Point2D> pointCompare) {
+	private boolean containsNode(Node node, Point2D p, Comparator<Point2D> pointCompare) {
+		if (node == null) {
+			return false;
+		}
 		Comparator<Point2D> flippedCompare;
 		if (pointCompare.equals(Point2D.X_ORDER)) {
-		 	StdOut.println("equals X_ORDER compartor");
+		 	// StdOut.println("equals X_ORDER compartor");
 		 	flippedCompare = Point2D.Y_ORDER;
 		} else {
-		 	StdOut.println("equals Y_ORDER compartor");
+		 	// StdOut.println("equals Y_ORDER compartor");
 		 	flippedCompare = Point2D.X_ORDER;
 		}
-		return false;
-		// return true;
+		int compare = pointCompare.compare(p, node.point);
+		if (compare == 0) {
+			return true;
+		} else if (compare == 1) {
+			return containsNode(node.right, p, flippedCompare);
+		} else if (compare == -1) {
+			return containsNode(node.left, p, flippedCompare);
+		} else {
+			return false;
+		}
 	}
 	// draw all points to standard draw 
 	public void draw() {
