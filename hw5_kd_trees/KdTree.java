@@ -145,32 +145,35 @@ public class KdTree {
 	}
 	// draw all points to standard draw 
 	public void draw() {
-		// A 2d-tree divides the unit square in a simple way: all the points to the left of the root go in the left subtree; 
-		// all those to the right go in the right subtree; and so forth, recursively. 
-		// Your draw() method should draw all of the points to standard draw in black 
-		// and the subdivisions in red (for vertical splits) and blue (for horizontal splits). 
-		// This method need not be efficient—it is primarily for debugging.
-
-		// StdDraw.setPenColor(StdDraw.BLACK) and StdDraw.setPenRadius(0.01) before before drawing the points; 
-		// use StdDraw.setPenColor(StdDraw.RED) or StdDraw.setPenColor(StdDraw.BLUE) and StdDraw.setPenRadius()
-
-		// Draw points
+		Comparator<Point2D> comparatorX = Point2D.X_ORDER;
+		drawPoint(root, comparatorX);
+	}
+	private void drawPoint(Node node, Comparator<Point2D> pointCompare) {
+		boolean compareX;
+		if (node == null) return;
+		Comparator<Point2D> flippedCompare;
+		if (pointCompare.equals(Point2D.X_ORDER)) {
+			compareX = true;
+		 	flippedCompare = Point2D.Y_ORDER;
+		} else {
+		 	compareX = false;
+		 	flippedCompare = Point2D.X_ORDER;
+		}
+		// Draw point
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.setPenRadius(0.01);
-
-		drawPoint(root);
-
-		// Draw Lines
-		// StdDraw.setPenColor(StdDraw.RED);
-		// StdDraw.setPenColor(StdDraw.BLUE);
-		// StdDraw.setPenRadius();
-
-	}
-	private void drawPoint(Node node) {
-		if (node == null) return;
 		StdDraw.point(node.point.x(), node.point.y());
-		drawPoint(node.left);
-		drawPoint(node.right);
+		// Draw line
+		StdDraw.setPenRadius();
+		if (compareX) {
+			StdDraw.setPenColor(StdDraw.RED);
+			StdDraw.line(node.point.x(), node.rect.ymin(), node.point.x(), node.rect.ymax());
+		} else {
+			StdDraw.setPenColor(StdDraw.BLUE);
+			StdDraw.line(node.rect.xmin(), node.point.y(), node.rect.xmax(), node.point.y());
+		}
+		drawPoint(node.left, flippedCompare);
+		drawPoint(node.right, flippedCompare);
 	}
 	// all points that are inside the rectangle 
 	public Iterable<Point2D> range(RectHV rect) {
