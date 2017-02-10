@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdDraw;
 import java.util.Stack;
 import java.util.Comparator;
 
@@ -144,7 +145,32 @@ public class KdTree {
 	}
 	// draw all points to standard draw 
 	public void draw() {
+		// A 2d-tree divides the unit square in a simple way: all the points to the left of the root go in the left subtree; 
+		// all those to the right go in the right subtree; and so forth, recursively. 
+		// Your draw() method should draw all of the points to standard draw in black 
+		// and the subdivisions in red (for vertical splits) and blue (for horizontal splits). 
+		// This method need not be efficient—it is primarily for debugging.
 
+		// StdDraw.setPenColor(StdDraw.BLACK) and StdDraw.setPenRadius(0.01) before before drawing the points; 
+		// use StdDraw.setPenColor(StdDraw.RED) or StdDraw.setPenColor(StdDraw.BLUE) and StdDraw.setPenRadius()
+
+		// Draw points
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.setPenRadius(0.01);
+
+		drawPoint(root);
+
+		// Draw Lines
+		// StdDraw.setPenColor(StdDraw.RED);
+		// StdDraw.setPenColor(StdDraw.BLUE);
+		// StdDraw.setPenRadius();
+
+	}
+	private void drawPoint(Node node) {
+		if (node == null) return;
+		StdDraw.point(node.point.x(), node.point.y());
+		drawPoint(node.left);
+		drawPoint(node.right);
 	}
 	// all points that are inside the rectangle 
 	public Iterable<Point2D> range(RectHV rect) {
@@ -177,5 +203,7 @@ public class KdTree {
 
 		Point2D p6 = new Point2D(.6, .95);
 		kdTree.insert(p6);
+
+		kdTree.draw();
 	}
 }
