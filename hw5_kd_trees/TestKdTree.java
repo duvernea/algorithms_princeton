@@ -137,7 +137,42 @@ public class TestKdTree {
 
 		Point2D checkPoint10 = new Point2D(.4, .6);;
 		assertEquals("Nearest point to " + checkPoint10 + " incorrect.", kdTree.nearest(checkPoint10), p1);
+	}
+	@Test
+	public void testSearchRange() {
+		StdOut.println("\n\ntestSearchRange\n\n");
+		KdTree kdTree = new KdTree();
 
+		Point2D p1 = new Point2D(.5, .5);
+		kdTree.insert(p1);
 
+		Point2D p2 = new Point2D(.25, .25);
+		kdTree.insert(p2);
+
+		Point2D p3 = new Point2D(.9, .9);
+		kdTree.insert(p3);
+
+		Point2D p4 = new Point2D(.7, .7	);
+		kdTree.insert(p4);
+
+		Point2D p5 = new Point2D(.6, .7	);
+		kdTree.insert(p5);
+
+		Point2D p6 = new Point2D(.6, .95);
+		kdTree.insert(p6);
+
+		RectHV rect = new RectHV(.3, .3, .7, .7);
+		// Iterable<Point2D> rectRange = kdTree.range(rect); 
+		// for (Point2D point : kdTree.range(rect)) {
+		// 	StdOut.println("Point " + point + " found inside rect " + rect);
+		// }
+		int numPoints = 0;
+		StdOut.println("Testing for range of points in rectangle...");
+		for (Point2D point : kdTree.range(rect)) {
+			numPoints++;
+			assertFalse("Rect should not contain point (.9, .9)", point.equals(p3));
+			assertFalse("Rect should not contain point (.7, 1)", point.equals(p6));
+		}
+		assertEquals("2 points should be contained in the rectangle", numPoints, 3);
 	}
 }

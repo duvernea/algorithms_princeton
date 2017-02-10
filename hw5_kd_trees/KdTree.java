@@ -2,8 +2,9 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdDraw;
-import java.util.Stack;
+import edu.princeton.cs.algs4.Stack;
 import java.util.Comparator;
+import java.util.ArrayList;
 
 import org.junit.runner.JUnitCore;
 
@@ -12,6 +13,7 @@ public class KdTree {
 	private Node root;
 	private Point2D championPoint;
 	private double championDistance;
+	private Stack<Point2D> pointsInside;
 
 	private class Node {
 		private Node(Point2D p) {
@@ -177,7 +179,40 @@ public class KdTree {
 	}
 	// all points that are inside the rectangle 
 	public Iterable<Point2D> range(RectHV rect) {
-		return new Stack<Point2D>();
+		Comparator<Point2D> comparatorX = Point2D.X_ORDER;
+		pointsInside = new Stack<Point2D>();
+		if (isEmpty()) {
+			return null;
+		} else {
+			searchRect(root, rect, comparatorX);
+		}
+		StdOut.println("pointsInside: " + pointsInside.size());
+		return pointsInside;
+
+	}
+	private void searchRect(Node node, RectHV rect, Comparator<Point2D> pointCompare) {
+
+		boolean compareX;
+		if (node == null) return;
+		StdOut.println("searchRect for node with point " + node.point);
+
+		Comparator<Point2D> flippedCompare;
+		if (pointCompare.equals(Point2D.X_ORDER)) {
+			compareX = true;
+		 	flippedCompare = Point2D.Y_ORDER;
+		} else {
+		 	compareX = false;
+		 	flippedCompare = Point2D.X_ORDER;
+		}
+		StdOut.println("rect: " + rect);
+		StdOut.println("point: " + node.point);
+		StdOut.println("contains?: " + rect.contains(node.point)+ "\n");
+		if (rect.contains(node.point)) {
+			StdOut.println("adding point....");
+			pointsInside.push(node.point);
+		}
+		searchRect(node.left, rect, flippedCompare);
+		searchRect(node.right, rect, flippedCompare);
 	}
 	// a nearest neighbor in the set to point p; null if the set is empty 
 	public Point2D nearest(Point2D p) {
@@ -193,7 +228,7 @@ public class KdTree {
 		}
 	}
 	private Node searchNearest(Node node, Point2D p, Comparator<Point2D> pointCompare) {
-		StdOut.println("Point " + p + " searchNearest() recursive at " + node.point);
+		// StdOut.println("Point " + p + " searchNearest() recursive at " + node.point);
 		if (node == null) {
 			// parent was the closest
 			return node;
@@ -247,32 +282,33 @@ public class KdTree {
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
 		JUnitCore.main("TestKdTree");
+	}
+	private void testDraw() {
+		KdTree kdTree = new KdTree();
 
-		// KdTree kdTree = new KdTree();
+		Point2D p1 = new Point2D(.5, .5);
+		kdTree.insert(p1);
 
-		// Point2D p1 = new Point2D(.5, .5);
-		// kdTree.insert(p1);
+		Point2D p2 = new Point2D(.25, .25);
+		kdTree.insert(p2);
 
-		// Point2D p2 = new Point2D(.25, .25);
-		// kdTree.insert(p2);
+		Point2D p3 = new Point2D(.9, .9);
+		kdTree.insert(p3);
 
-		// Point2D p3 = new Point2D(.9, .9);
-		// kdTree.insert(p3);
+		Point2D p4 = new Point2D(.7, .7	);
+		kdTree.insert(p4);
 
-		// Point2D p4 = new Point2D(.7, .7	);
-		// kdTree.insert(p4);
+		Point2D p5 = new Point2D(.6, .7	);
+		kdTree.insert(p5);
 
-		// Point2D p5 = new Point2D(.6, .7	);
-		// kdTree.insert(p5);
+		Point2D p6 = new Point2D(.6, .95);
+		kdTree.insert(p6);
 
-		// Point2D p6 = new Point2D(.6, .95);
-		// kdTree.insert(p6);
+		kdTree.draw();
 
-		// kdTree.draw();
+		Point2D checkPoint = new Point2D(.61, .7);
 
-		// Point2D checkPoint = new Point2D(.61, .7);
-
-		// Point2D nearest = kdTree.nearest(checkPoint);
-		// StdOut.println("Nearest point to " + checkPoint + " = " + nearest);
+		Point2D nearest = kdTree.nearest(checkPoint);
+		StdOut.println("Nearest point to " + checkPoint + " = " + nearest);
 	}
 }
