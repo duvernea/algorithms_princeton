@@ -73,6 +73,16 @@ public class KdTree {
 		}
 	}
 	private Node insertNode(Node node, Point2D p, RectHV rect, Comparator<Point2D> pointCompare) {
+		if (node == null) {
+			Node nodeAdded = new Node(p);
+			nodeAdded.rect = rect;
+			size++;
+			return nodeAdded;
+		}
+		if (p.equals(node.point)) {
+			return node;
+		} 
+
 		Comparator<Point2D> flippedCompare;
 		boolean compareX;
 		if (pointCompare.equals(Point2D.X_ORDER)) {
@@ -82,18 +92,11 @@ public class KdTree {
 			compareX = false;
 			flippedCompare = Point2D.X_ORDER;
 		}
-		if (node == null) {
-			Node nodeAdded = new Node(p);
-			nodeAdded.rect = rect;
-			size++;
-			return nodeAdded;
-		}
+
 		int compare = pointCompare.compare(p, node.point);
 
 		RectHV rectAdded;
-		if (p.equals(node.point)) {
-			return node;
-		} 
+
 		if (compare > 0) {
 			if (compareX) {
 				rectAdded = new RectHV(node.point.x(), node.rect.ymin(), 
@@ -200,6 +203,9 @@ public class KdTree {
 		} else {
 		 	compareX = false;
 		 	flippedCompare = Point2D.X_ORDER;
+		}
+		if (!rect.intersects(node.rect)) {
+			return;
 		}
 		if (rect.contains(node.point)) {
 			pointsInside.push(node.point);
