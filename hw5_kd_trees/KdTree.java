@@ -84,25 +84,27 @@ public class KdTree {
 			return nodeAdded;
 		}
 		int compare = pointCompare.compare(p, node.point);
+
 		RectHV rectAdded;
 		if (compare > 0) {
-
 			if (compareX) {
-				rectAdded = new RectHV(node.point.x(), node.rect.ymin(), node.rect.xmax(), node.rect.ymax());
+				rectAdded = new RectHV(node.point.x(), node.rect.ymin(), 
+					node.rect.xmax(), node.rect.ymax());
 			} else {
-				rectAdded = new RectHV(node.rect.xmin(), node.point.y(), node.rect.xmax(), node.rect.ymax());
+				rectAdded = new RectHV(node.rect.xmin(), node.point.y(), 
+					node.rect.xmax(), node.rect.ymax());
 			}
 			node.right = insertNode(node.right, p, rectAdded, flippedCompare);
 
 		} else if (compare < 0) {
-
 			if (compareX) {
-				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), node.point.x(), node.rect.ymax());
+				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), 
+					node.point.x(), node.rect.ymax());
 			} else {
-				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), node.rect.xmax(), node.point.y());
+				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), 
+					node.rect.xmax(), node.point.y());
 			}
 			node.left = insertNode(node.left, p, rectAdded, flippedCompare);
-
 		} 
 		return node;
 	}
@@ -178,7 +180,7 @@ public class KdTree {
 		Comparator<Point2D> comparatorX = Point2D.X_ORDER;
 		pointsInside = new Stack<Point2D>();
 		if (isEmpty()) {
-			return null;
+			return pointsInside;
 		} else {
 			searchRect(root, rect, comparatorX);
 		}
