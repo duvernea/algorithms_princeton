@@ -4,9 +4,8 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.Stack;
 import java.util.Comparator;
-import java.util.ArrayList;
 
-import org.junit.runner.JUnitCore;
+// import org.junit.runner.JUnitCore;
 
 public class KdTree {
 
@@ -16,13 +15,14 @@ public class KdTree {
 	private Stack<Point2D> pointsInside;
 
 	private class Node {
-		private Node(Point2D p) {
-			point = p;
-		}
 		private Point2D point;
 		private RectHV rect;
 		private Node left;
 		private Node right;
+
+		private Node(Point2D p) {
+			point = p;
+		}
 	}
 
 	// construct an empty set of points 
@@ -37,11 +37,7 @@ public class KdTree {
 	}
 	// is the set empty? 
 	public boolean isEmpty() {
-		if (root.point == null) {
-			return true;
-		} else {
-			return false;
-		}
+		return (root.point == null);
 	}
 	// number of points in the set 
 	public int size() {
@@ -89,7 +85,7 @@ public class KdTree {
 		}
 		int compare = pointCompare.compare(p, node.point);
 		RectHV rectAdded;
-		if (compare == 1) {
+		if (compare > 0) {
 
 			if (compareX) {
 				rectAdded = new RectHV(node.point.x(), node.rect.ymin(), node.rect.xmax(), node.rect.ymax());
@@ -98,10 +94,10 @@ public class KdTree {
 			}
 			node.right = insertNode(node.right, p, rectAdded, flippedCompare);
 
-		} else if (compare == -1) {
+		} else if (compare < 0) {
 
 			if (compareX) {
-				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), node.point.x() , node.rect.ymax());
+				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), node.point.x(), node.rect.ymax());
 			} else {
 				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), node.rect.xmax(), node.point.y());
 			}
@@ -137,9 +133,9 @@ public class KdTree {
 		int compare = pointCompare.compare(p, node.point);
 		if (compare == 0) {
 			return true;
-		} else if (compare == 1) {
+		} else if (compare > 0) {
 			return containsNode(node.right, p, flippedCompare);
-		} else if (compare == -1) {
+		} else if (compare < 0) {
 			return containsNode(node.left, p, flippedCompare);
 		} else {
 			return false;
@@ -186,7 +182,7 @@ public class KdTree {
 		} else {
 			searchRect(root, rect, comparatorX);
 		}
-		StdOut.println("pointsInside: " + pointsInside.size());
+		// StdOut.println("pointsInside: " + pointsInside.size());
 		return pointsInside;
 
 	}
@@ -194,7 +190,7 @@ public class KdTree {
 
 		boolean compareX;
 		if (node == null) return;
-		StdOut.println("searchRect for node with point " + node.point);
+		// StdOut.println("searchRect for node with point " + node.point);
 
 		Comparator<Point2D> flippedCompare;
 		if (pointCompare.equals(Point2D.X_ORDER)) {
@@ -204,11 +200,11 @@ public class KdTree {
 		 	compareX = false;
 		 	flippedCompare = Point2D.X_ORDER;
 		}
-		StdOut.println("rect: " + rect);
-		StdOut.println("point: " + node.point);
-		StdOut.println("contains?: " + rect.contains(node.point)+ "\n");
+		// StdOut.println("rect: " + rect);
+		// StdOut.println("point: " + node.point);
+		// StdOut.println("contains?: " + rect.contains(node.point)+ "\n");
 		if (rect.contains(node.point)) {
-			StdOut.println("adding point....");
+			// StdOut.println("adding point....");
 			pointsInside.push(node.point);
 		}
 		searchRect(node.left, rect, flippedCompare);
@@ -223,7 +219,7 @@ public class KdTree {
 		} else {
 			championPoint = root.point;
 			championDistance = root.point.distanceTo(p);
-			Node closest = searchNearest(root, p, comparatorX);
+			searchNearest(root, p, comparatorX);
 			return championPoint;
 		}
 	}
@@ -257,8 +253,9 @@ public class KdTree {
 			}
 			// true if current champion point is to the right/top of this point node
 			// if so, need to search the right/top side
-			boolean searchRight = (pointCompare.compare(championPoint, node.point) != -1);
-			// StdOut.println("championPoint: " + championPoint + " node.point: " + node.point + " searchright: " + searchRight);
+			boolean searchRight = (pointCompare.compare(championPoint, node.point) >= 0);
+			// StdOut.println("championPoint: " + championPoint + " node.point: " 
+			// + node.point + " searchright: " + searchRight);
 			if (searchRight) {
 				node = searchNearest(node.right, p, flippedCompare);
 			}
@@ -269,8 +266,9 @@ public class KdTree {
 			}
 			// true if current champion point is to the left/bottom of this point node
 			// if so, need to search the right/top side
-			boolean searchLeft = (pointCompare.compare(championPoint, node.point) != 1);
-			// StdOut.println("championPoint: " + championPoint + " node.point: " + node.point + " searchleft: " + searchLeft);
+			boolean searchLeft = (pointCompare.compare(championPoint, node.point) <= 0);
+			// StdOut.println("championPoint: " + championPoint + " node.point: " 
+			// + node.point + " searchleft: " + searchLeft);
 
 			if (searchLeft) {
 				node = searchNearest(node.left, p, flippedCompare);
@@ -281,27 +279,27 @@ public class KdTree {
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
-		JUnitCore.main("TestKdTree");
+		// JUnitCore.main("TestKdTree");
 	}
 	private void testDraw() {
 		KdTree kdTree = new KdTree();
 
-		Point2D p1 = new Point2D(.5, .5);
+		Point2D p1 = new Point2D(0.5, 0.5);
 		kdTree.insert(p1);
 
-		Point2D p2 = new Point2D(.25, .25);
+		Point2D p2 = new Point2D(0.25, 0.25);
 		kdTree.insert(p2);
 
-		Point2D p3 = new Point2D(.9, .9);
+		Point2D p3 = new Point2D(0.9, 0.9);
 		kdTree.insert(p3);
 
-		Point2D p4 = new Point2D(.7, .7	);
+		Point2D p4 = new Point2D(0.7, 0.7);
 		kdTree.insert(p4);
 
-		Point2D p5 = new Point2D(.6, .7	);
+		Point2D p5 = new Point2D(0.6, 0.7);
 		kdTree.insert(p5);
 
-		Point2D p6 = new Point2D(.6, .95);
+		Point2D p6 = new Point2D(0.6, 0.95);
 		kdTree.insert(p6);
 
 		kdTree.draw();
@@ -309,6 +307,6 @@ public class KdTree {
 		Point2D checkPoint = new Point2D(.61, .7);
 
 		Point2D nearest = kdTree.nearest(checkPoint);
-		StdOut.println("Nearest point to " + checkPoint + " = " + nearest);
+		// StdOut.println("Nearest point to " + checkPoint + " = " + nearest);
 	}
 }

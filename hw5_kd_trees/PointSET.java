@@ -4,11 +4,11 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdOut;
 import java.util.Stack;
 
-import org.junit.runner.JUnitCore;
+// import org.junit.runner.JUnitCore;
 
 public class PointSET {
 
-	TreeSet<Point2D> treeSet;
+	private TreeSet<Point2D> treeSet;
 
 	// construct an empty set of points 
 	public PointSET() {
@@ -67,6 +67,12 @@ public class PointSET {
 	}
 	// unit testing of the methods (optional) 
 	public static void main(String[] args) {
-		JUnitCore.main("TestPointSET");
+		// JUnitCore.main("TestPointSET");
+
+		// Test drawing (not sure how to test in JUnit)
+		PointSET test = new PointSET();
+		test.insert(new Point2D(.5, .5));
+		test.insert(new Point2D(.4, .4));
+		test.draw();
 	}
 }
