@@ -10,6 +10,7 @@ import java.util.Comparator;
 public class KdTree {
 
 	private Node root;
+	private int size;
 	private Point2D championPoint;
 	private double championDistance;
 	private Stack<Point2D> pointsInside;
@@ -41,8 +42,9 @@ public class KdTree {
 	}
 	// number of points in the set 
 	public int size() {
-		int count = getCount(root);
-		return count;
+
+		// int count = getCount(root);
+		return size;
 	}
 	private int getCount(Node node) {
 		// Node is null if called on a left or right node that doesn't exist
@@ -63,11 +65,15 @@ public class KdTree {
 		if (root.point == null) {
 			root.point = p;
 			root.rect = new RectHV(0, 0, 1, 1);
+			size++;
+			// StdOut.println("Point " + p + " created with rectHV " + root.rect);
+
 		} else {
 			insertNode(root, p, root.rect, comparatorX);
 		}
 	}
 	private Node insertNode(Node node, Point2D p, RectHV rect, Comparator<Point2D> pointCompare) {
+		// StdOut.println("insertNode run.  Should be run number of nodes traversed");
 		Comparator<Point2D> flippedCompare;
 		boolean compareX;
 		if (pointCompare.equals(Point2D.X_ORDER)) {
@@ -81,11 +87,18 @@ public class KdTree {
 			Node nodeAdded = new Node(p);
 			nodeAdded.rect = rect;
 			// StdOut.println("Point " + p + " created with rectHV " + rect);
+			size++;
 			return nodeAdded;
 		}
 		int compare = pointCompare.compare(p, node.point);
 
 		RectHV rectAdded;
+		if (p.equals(node.point)) {
+			// point already exists
+			// StdOut.println("equivalent point " + node.point);
+			return node;
+			// System.exit(0);
+		} 
 		if (compare > 0) {
 			if (compareX) {
 				rectAdded = new RectHV(node.point.x(), node.rect.ymin(), 
@@ -95,8 +108,9 @@ public class KdTree {
 					node.rect.xmax(), node.rect.ymax());
 			}
 			node.right = insertNode(node.right, p, rectAdded, flippedCompare);
+			// StdOut.println("node.right...");
 
-		} else if (compare < 0) {
+		} else if (compare <= 0) {
 			if (compareX) {
 				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), 
 					node.point.x(), node.rect.ymax());
@@ -105,7 +119,10 @@ public class KdTree {
 					node.rect.xmax(), node.point.y());
 			}
 			node.left = insertNode(node.left, p, rectAdded, flippedCompare);
+			// StdOut.println("node.left...");
 		} 
+		// StdOut.println("Reached the end of the insertNode method");
+
 		return node;
 	}
 	// does the set contain point p? 
@@ -124,6 +141,12 @@ public class KdTree {
 		if (node == null) {
 			return false;
 		}
+		if (p.equals(node.point)) {
+			// point already exists
+			// StdOut.println("equivalent point " + node.point);
+			return true;
+			// System.exit(0);
+		} 
 		Comparator<Point2D> flippedCompare;
 		if (pointCompare.equals(Point2D.X_ORDER)) {
 		 	// StdOut.println("equals X_ORDER compartor");
@@ -133,15 +156,11 @@ public class KdTree {
 		 	flippedCompare = Point2D.X_ORDER;
 		}
 		int compare = pointCompare.compare(p, node.point);
-		if (compare == 0) {
-			return true;
-		} else if (compare > 0) {
+		if (compare > 0) {
 			return containsNode(node.right, p, flippedCompare);
-		} else if (compare < 0) {
-			return containsNode(node.left, p, flippedCompare);
 		} else {
-			return false;
-		}
+			return containsNode(node.left, p, flippedCompare);
+		} 
 	}
 	// draw all points to standard draw 
 	public void draw() {
