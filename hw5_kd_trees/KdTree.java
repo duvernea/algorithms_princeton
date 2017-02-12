@@ -69,13 +69,14 @@ public class KdTree {
 			size++;
 
 		} else {
-			insertNode(root, p, root.rect, comparatorX);
+			insertNode(root, p, 0, 0, 1, 1, comparatorX);
 		}
 	}
-	private Node insertNode(Node node, Point2D p, RectHV rect, Comparator<Point2D> pointCompare) {
+	private Node insertNode(Node node, Point2D p, double xmin, double ymin,
+		double xmax, double ymax, Comparator<Point2D> pointCompare) {
 		if (node == null) {
 			Node nodeAdded = new Node(p);
-			nodeAdded.rect = rect;
+			nodeAdded.rect = new RectHV(xmin, ymin, xmax, ymax);
 			size++;
 			return nodeAdded;
 		}
@@ -94,28 +95,35 @@ public class KdTree {
 		}
 
 		int compare = pointCompare.compare(p, node.point);
-
-		RectHV rectAdded;
+		double x1, y1, x2, y2;
 
 		if (compare > 0) {
 			if (compareX) {
-				rectAdded = new RectHV(node.point.x(), node.rect.ymin(), 
-					node.rect.xmax(), node.rect.ymax());
+				x1 = node.point.x();
+				y1 = node.rect.ymin();
+				x2 = node.rect.xmax();
+				y2 = node.rect.ymax();
 			} else {
-				rectAdded = new RectHV(node.rect.xmin(), node.point.y(), 
-					node.rect.xmax(), node.rect.ymax());
+				x1 = node.rect.xmin();
+				y1 = node.point.y();
+				x2 = node.rect.xmax();
+				y2 = node.rect.ymax();
 			}
-			node.right = insertNode(node.right, p, rectAdded, flippedCompare);
+			node.right = insertNode(node.right, p, x1, y1, x2, y2, flippedCompare);
 
-		} else if (compare <= 0) {
+		} else {
 			if (compareX) {
-				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), 
-					node.point.x(), node.rect.ymax());
+				x1 = node.rect.xmin();
+				y1 = node.rect.ymin();
+				x2 = node.point.x();
+				y2 = node.rect.ymax();
 			} else {
-				rectAdded = new RectHV(node.rect.xmin(), node.rect.ymin(), 
-					node.rect.xmax(), node.point.y());
+				x1 = node.rect.xmin();
+				y1 = node.rect.ymin();
+				x2 = node.rect.xmax();
+				y2 = node.point.y();
 			}
-			node.left = insertNode(node.left, p, rectAdded, flippedCompare);
+			node.left = insertNode(node.left, p, x1, y1, x2, y2, flippedCompare);
 		} 
 		return node;
 	}
