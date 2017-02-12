@@ -220,7 +220,7 @@ public class KdTree {
 			return null;
 		} else {
 			championPoint = root.point;
-			championDistance = root.point.distanceTo(p);
+			championDistance = root.point.distanceSquaredTo(p);
 			searchNearest(root, p, comparatorX);
 			return championPoint;
 		}
@@ -229,7 +229,7 @@ public class KdTree {
 		if (node == null) {
 			return;
 		}
-		double distance = p.distanceTo(node.point);
+		double distance = p.distanceSquaredTo(node.point);
 		if (distance < championDistance) {
 			championDistance = distance;
 			championPoint = node.point;
@@ -244,10 +244,10 @@ public class KdTree {
 			second = node.left;
 		}
 		Comparator<Point2D> flippedCompare = flipComparator(pointCompare);
-		if (first != null && first.rect.distanceTo(p) < championDistance) {
+		if (first != null) {
 			searchNearest(first, p, flippedCompare);
 		}
-		if (second != null && second.rect.distanceTo(p) < championDistance) {
+		if (second != null && second.rect.distanceSquaredTo(p) < championDistance) {
 			searchNearest(second, p, flippedCompare);
 		}
 	}
